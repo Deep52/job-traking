@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Student</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="include-file/css/bootstrap.min.css" rel="stylesheet">
+  <link href="include-file/css/style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="include-file/css/font-awesome.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid d-flex justify-content-center">
+          <a class="navbar-brand text-center" href="login.html"><img class="w-50" src="include-file/images/logo.png"></a>
+        </div>
+    </nav>
+    <div class="studentDashboard pt-3">
+    <div class="container table_mainDiv">
+        <h2><center><b>Student dashboard</b></center></h2>
+        <div class="row">
+        <div class="col-md-12 add_new-Job">
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-success my-2" href="add-job.html">Add new job</a>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <a class="btn btn-success my-2" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Student jobs status</h4>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <select class="form-select me-2 w-25" aria-label="Default select example">
+                            <option value="1" selected>One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 main-table" style="overflow-x: auto;">
+            <table id="example" class="table table-striped mt-3" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Total Job</th>
+                        <th>Company</th>
+                        <th>Selected No.</th>
+                        <th>Step of job</th>
+                        <th>Dummy</th>
+                        <th>View / Edit / Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>61</td>
+                        <td>2011-04-25</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Garrett Winters</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>63</td>
+                        <td>2011-07-25</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Ashton Cox</td>
+                        <td>Junior Technical Author</td>
+                        <td>San Francisco</td>
+                        <td>66</td>
+                        <td>2009-01-12</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Cedric Kelly</td>
+                        <td>Senior Javascript Developer</td>
+                        <td>Edinburgh</td>
+                        <td>22</td>
+                        <td>2012-03-29</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Airi Satou</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>33</td>
+                        <td>2008-11-28</td>
+                        <td><a class="btn btn-primary" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class="btn btn-success" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> <a class="btn btn-danger" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+ <!--End HTML-->
+<script src="include-file/js/jquery.min.js"></script>
+<script src="include-file/js/jquery.dataTables.min.js"></script>
+<script src="include-file/js/dataTables.bootstrap5.min.js"></script>
+<script src="include-file/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#example').DataTable();
+    });
+  </script>
+</body>
+</html>
