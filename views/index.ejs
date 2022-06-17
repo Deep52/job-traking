@@ -1,54 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Login</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="include-file/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="include-file/css/font-awesome.min.css">
-  <script src="include-file/js/bootstrap.bundle.min.js"></script>
-  <link href="include-file/css/style.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="container-fluid d-flex justify-content-center">
-          <a class="navbar-brand text-center" href="login.html"><img class="w-50" src="include-file/images/logo.png"></a>
+<%- include('header') %>
+
+    <body>
+        <nav class="navbar">
+            <div class="container-fluid d-flex justify-content-center">
+                <a class="navbar-brand text-center" href="login.html"><img class="w-50" src="/images/logo.png"></a>
+            </div>
+        </nav>
+        <div class="loginDashboard pt-3">
+            <div class="container">
+                <div class="main-form">
+                    <h2>
+                        <center><b>Login</b></center>
+                    </h2>
+                    <form action="#" class="login-signup">
+                        <div class="form-group mb-3">
+                            <label for="email" class="mb-2">Username:</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                <input type="email" class="form-control rounded-0" placeholder="Enter Email" aria-label="Username" aria-describedby="basic-addon1" name="loginEmail">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password" class="mb-2">Password:</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                <input type="password" class="form-control rounded-0" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1" name="password">
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                        </div>
+                        <div class="btn-group-login mt-2">
+                            <a href="student-dashboard.html" class="btn btn-success w-100 text-uppercase rounded-0" name="loginBtn">Login</a>
+                        </div>
+                        <div class="col-12 text-center mt-4">
+                            <div class="form-check">
+                                <label class="form-check-label" for="gridCheck">DON'T HAVE AN ACCOUNT ? </label> <a class="text-uppercase" href="register.html" name="signupBtn">Sign up</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </nav>
-    <div  class="loginDashboard pt-3">
-    <div class="container">
-        <div class="main-form">
-            <h2><center><b>Login</b></center></h2>
-            <form action="#" class="login-signup">
-                <div class="form-group mb-3">
-                    <label for="email" class="mb-2">Username:</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                        <input type="email" class="form-control rounded-0" placeholder="Enter Email" aria-label="Username" aria-describedby="basic-addon1" name="loginEmail">
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="password" class="mb-2">Password:</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
-                        <input type="password" class="form-control rounded-0" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1" name="password">
-                    </div>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                </div>
-                <div class="btn-group-login mt-2">
-                    <a href="student-dashboard.html" class="btn btn-success w-100 text-uppercase rounded-0" name="loginBtn">Login</a>
-                </div>
-                <div class="col-12 text-center mt-4">
-                    <div class="form-check">
-                        <label class="form-check-label" for="gridCheck">DON'T HAVE AN ACCOUNT ? </label> <a class="text-uppercase" href="register.html" name="signupBtn">Sign up</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+    </body>
+
+    </html>

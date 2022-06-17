@@ -1,42 +1,55 @@
-*{
-    margin:0px;
-    padding:0px;
+* {
+    margin: 0px;
+    padding: 0px;
 }
-body{
-    margin:0px;
-    padding:0px;
+
+body {
+    margin: 0px;
+    padding: 0px;
     background-color: #94e0f9;
     font-family: 'Poppins', sans-serif;
 }
+
+
 /* form */
-.table_mainDiv{
+
+.table_mainDiv {
     background-color: #fff;
-    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
-    padding: 40px 30px;
-}
-.main-form{
-    max-width: 500px;
-    background-color: #fff;
-    margin: 0 auto;
-    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
     padding: 40px 30px;
 }
 
+.main-form {
+    max-width: 500px;
+    background-color: #fff;
+    margin: 0 auto;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+    padding: 40px 30px;
+}
+
+
 /* Student dashboard */
-.main-table .dataTables_filter{
+
+.main-table .dataTables_filter {
     float: right;
 }
-.main-table .dataTables_info{
+
+.main-table .dataTables_info {
     display: none;
 }
-.main-table .pagination{
-    float:right;
+
+.main-table .pagination {
+    float: right;
 }
-.dataTables_length , .dataTables_filter{
+
+.dataTables_length,
+.dataTables_filter {
     display: none;
 }
+
+
 /* End Student dashborad */
