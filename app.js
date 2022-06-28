@@ -38,6 +38,16 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", function(req, res) {
     res.render("index");
 });
+app.get("/register", function(req, res) {
+    res.render("register");
+});
+app.get("/student-dashboard", function(req, res) {
+    res.render("student-dashboard");
+});
+app.get("/add-job", function(req, res) {
+    res.render("add-job");
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on port: http://localhost:${PORT}`);
 });

@@ -6,8 +6,32 @@
 body {
     margin: 0px;
     padding: 0px;
-    background-color: #94e0f9;
     font-family: 'Poppins', sans-serif;
+}
+
+.bg-image {
+    background-size: 100% 100%;
+    min-height: 100vh;
+}
+
+.overlay_color {
+    background-color: rgba(0, 0, 0, 0.76);
+    min-height: 100vh;
+}
+
+.logo-login {
+    width: 240px;
+}
+
+.flexing-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+}
+
+#basic-addon1 {
+    width: 40px;
 }
 
 
@@ -42,8 +66,8 @@ body {
     display: none;
 }
 
-.main-table .pagination {
-    float: right;
+.pagination {
+    justify-content: end;
 }
 
 .dataTables_length,
@@ -53,3 +77,128 @@ body {
 
 
 /* End Student dashborad */
+
+.side-bar-logo {
+    display: flex;
+    align-items: center;
+    column-gap: 70px;
+}
+
+
+/* Side bar css */
+
+.btn-magenta {
+    background: #D6177D;
+    color: #fff;
+}
+
+.btn-magenta:hover {
+    color: #fff;
+}
+
+.anchor-magenta {
+    color: #D6177D;
+}
+
+.custom-logo {
+    max-width: 100%;
+}
+
+.anchor-magenta:hover {
+    color: #D6177D;
+}
+
+.btn-sidebar-nav {
+    padding: 10px;
+    text-decoration: none;
+}
+
+.paginate_button.page-item.active .page-link {
+    background-color: #D6177D;
+    border-color: #D6177D;
+    color: #fff;
+}
+
+.paginate_button.page-item.previous .page-link {
+    color: #D6177D;
+}
+
+.paginate_button.page-item.previous.disabled .page-link {
+    color: #7d7d7d;
+    background-color: #eee;
+}
+
+.paginate_button.page-item .page-link {
+    color: #D6177D;
+}
+
+@media screen and (min-width: 768px) {
+    .sideBar .main-sideBar {
+        min-height: 100vh;
+    }
+    .login__dashboard {
+        min-height: 100vh;
+    }
+    .register__dashboard {
+        min-height: 120vh;
+    }
+    .bg-image.register {
+        min-height: 120vh;
+    }
+    .overlay_color.register {
+        min-height: 120vh;
+    }
+    .side-bar-logo button {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bg-image {
+        min-height: 70vh;
+    }
+    .overlay_color {
+        min-height: 70vh;
+    }
+    .bg-image.register {
+        min-height: 100vh;
+    }
+    .overlay_color.register {
+        min-height: 100vh;
+    }
+    .sideBar #menu {
+        display: none;
+    }
+    .side-bar-logo {
+        display: flex;
+        align-items: center;
+        column-gap: 70px;
+    }
+    .side-bar-logo button {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+    }
+    .btn-sidebar-nav {
+        font-size: 13px;
+        display: flex;
+        justify-content: center;
+        width: 133px;
+    }
+    .mobile-view-custom {
+        column-gap: 10px;
+    }
+    .custom-logo {
+        max-width: 160px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .custom-logo {
+        max-width: 150px;
+    }
+}
+
+
+/* End css */

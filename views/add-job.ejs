@@ -1,59 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Add Job</title>
+  <title>Student</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="include-file/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="include-file/css/font-awesome.min.css">
-  <script src="include-file/js/bootstrap.bundle.min.js"></script>
   <link href="include-file/css/style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="include-file/css/font-awesome.min.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="container-fluid d-flex justify-content-center">
-      <a class="navbar-brand text-center" href="login.html"><img class="w-50" src="include-file/images/logo.png"></a>
-    </div>
-  </nav>
-  <div class="addnewJob pt-3">
-    <div class="container">
-        <div class="main-form">
-            <h2><center><b>Add new job</b></center></h2>
-            <form action="#" class="Formcss">
-                <div class="col-md-12 form-group">
-                    <label for="course" class="form-label">Title:</label>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
-                      <input type="text" class="form-control rounded-0" placeholder="Title" aria-label="course" aria-describedby="basic-addon1" name="title">
+<div class="studentDashborad bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sideBar bg-secondary">
+                <div class="col-md-12">
+                    <div class="main-sideBar d-flex flex-column px-3 pt-2 text-white">
+                        <div class="logo side-bar-logo mb-4 mt-2 d-flex">
+                            <img style="width: 100%;" src="include-file/images/logo.png">
+                            <button class="hamButton"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                        </div>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-sm-start" id="menu">
+                            <li class="nav-item p-1 rounded-3" id="nav-item">
+                                    <a href="student-dashboard.html" class="nav-link align-middle px-0 text-white">
+                                    <i class="fa fa-home" aria-hidden="true"></i> <span class="ms-1 d-sm-inline">Dashborad</span>
+                                </a>
+                            </li>
+                            <li class="nav-item p-1 rounded-3" id="nav-item">
+                                <a href="student-dashboard.html" class="nav-link align-middle px-0 text-white">
+                                    <i class="fa fa-eye" aria-hidden="true"></i><span class="ms-1 d-sm-inline">All jobs</span>
+                                </a>
+                            </li>
+                            <li class="nav-item p-1 rounded-3" id="nav-item">
+                                <a href="add-job.html" class="nav-link align-middle px-0 text-white">
+                                    <i class="fa fa-plus" aria-hidden="true"></i><span class="ms-1 d-sm-inline">Add job</span>
+                                </a>
+                            </li>
+                            <li class="nav-item p-1 rounded-3" id="nav-item">
+                                <a href="login.html" class="nav-link align-middle px-0 text-white">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i><span class="ms-1 d-sm-inline">Logout</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                  </div>
-                <div class="col-md-12 form-group">
-                    <label for="course" class="form-label">Step:</label>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-street-view" aria-hidden="true"></i></span>
-                      <input type="text" class="form-control rounded-0" placeholder="Step" aria-label="step" aria-describedby="basic-addon1" name="step">
-                    </div>
-                  </div>
-                <div class="col-md-12 form-group">
-                    <label for="course" class="form-label">Feedback:</label>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-commenting" aria-hidden="true"></i></span>
-                      <input type="textarea" class="form-control rounded-0" placeholder="Feedback" aria-label="course" aria-describedby="basic-addon1" name="feedback">
-                    </div>
-                  </div>
-                <div class="col-md-12 form-group">
-                    <label for="course" class="form-label">Send Email:</label>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                      <input type="email" class="form-control rounded-0" placeholder="Enter email" aria-label="course" aria-describedby="basic-addon1" name="email">
-                    </div>
-                  </div>
-                <div class="btn-group-login mt-5">
-                    <a href="#" class="btn btn-success w-100 rounded-0">Add</a>
                 </div>
-            </form>
+            </div>
+            <div class="col-md-10 table__dashboard p-0 ">
+			  <div class="col-md-12 d-flex justify-content-end bg-white p-3 shadow-sm">
+                    <form class="d-flex">
+                        <input class="form-control me-2 rounded-0" type="search" placeholder="Search" aria-label="Search">
+                        <select class="form-select me-2 w-25 rounded-0" aria-label="Default select example">
+                            <option value="1" selected>One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <button class="btn btn-outline-success rounded-0" type="submit">Search</button>
+                      </form>
+                </div>
+                <div class="col-md-12 table__main px-3">
+                    <h4 class="pt-3"><b>Add New job</b></h4>
+                    <form action="#" class="Formcss">
+                        <div class="col-md-12 form-group">
+                            <label for="course" class="form-label">Title:</label>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                              <input type="text" class="form-control rounded-0" placeholder="Title" aria-label="course" aria-describedby="basic-addon1" name="title">
+                            </div>
+                          </div>
+                        <div class="col-md-12 form-group">
+                            <label for="course" class="form-label">Step:</label>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-street-view" aria-hidden="true"></i></span>
+                              <input type="text" class="form-control rounded-0" placeholder="Step" aria-label="step" aria-describedby="basic-addon1" name="step">
+                            </div>
+                          </div>
+                        <div class="col-md-12 form-group">
+                            <label for="course" class="form-label">Feedback:</label>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                              <input type="textarea" class="form-control rounded-0" placeholder="Feedback" aria-label="course" aria-describedby="basic-addon1" name="feedback">
+                            </div>
+                          </div>
+                        <div class="col-md-12 form-group">
+                            <label for="course" class="form-label">Send Email:</label>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                              <input type="email" class="form-control rounded-0" placeholder="Enter email" aria-label="course" aria-describedby="basic-addon1" name="email">
+                            </div>
+                          </div>
+                        <div class="btn-group-login mt-5">
+                            <a href="#" class="btn btn-success px-5 rounded-0"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-  </div>
+</div>
+<script src="include-file/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+      $(".hamButton").click(function(){
+        $("#menu").toggle();
+        $("#nav-item").slideDown("5000");
+      });
+    });
+</script>
 </body>
 </html>
