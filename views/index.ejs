@@ -1,55 +1,236 @@
-<%- include('header') %>
+<!DOCTYPE html>
+<html lang="en">
 
-    <body class="login__dashboard">
-        <div class="bg-image" style="background-image: url('../images/bg-image.jpg');">
-            <div class="overlay_color">
+<head>
+    <title>Home page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+</head>
 
-                <div class="loginDashboard pt-3">
-                    <div class="container flexing-main">
-                        <div class="row">
-                            <nav class="col-md-12 navbar">
-                                <div class="container-fluid d-flex justify-content-center">
-                                    <a class="navbar-brand text-center" href="login.html"><img class="logo-login" src="../images/logo.png"></a>
+<body>
+    <div class="top_nav">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 latestupdate text-center py-2">
+                    <h6 style="margin:0px;">Job Tracking System of UEA </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------------------ End top nav ---------------------------------->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="../images/logo.png" style="width: 250px;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav" style="margin-left: auto; column-gap: 20px;">
+                    <li class="nav-item">
+                        <a class="nav-link active text-light" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#">About</a>
+                    </li>
+                    <!--  <li class="nav-item">
+            <a class="nav-link text-light" href="#">International Students</a>
+          </li>-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Login
+            </a>
+                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item text-light" href="/login_student">Students</a></li>
+                            <li><a class="dropdown-item text-light" href="/login_professor">Professor</a></li>
+                            <li><a class="dropdown-item text-light" href="/login_admin">Admin</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-----------------------End navbar ---------------------->
+    <div class="banner-part">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 p-0 banner-part-slide-show">
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="10000">
+                                <img src="../images/banner-1.jpg" class="d-block w-100" alt="...">
+                                <div class="carousel-caption rounded-3 col-md-6 d-md-block bg-light content-section-slide">
+                                    <h2 style="color: #D6177D;">Job Tracking Web Application</h2>
+                                    <p style="text-align: justify;">This application is used for tracking the jobs of the students. This application is helpful to the students in getting jobs. Professors will give feedback on the student’s weak points and that will help the students.
+                                        When students will apply for the next jobs. </p>
+                                    <!--  <a href="#">Read More</a>-->
                                 </div>
-                            </nav>
-                            <div class="col-md-12 main-form">
-                                <h2>
-                                    <center><b>Login</b></center>
-                                </h2>
-                                <form action="#" class="login-signup">
-                                    <div class="form-group mb-3">
-                                        <label for="email" class="mb-2">Username:</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                            <input type="email" class="form-control rounded-0" placeholder="Enter Email" aria-label="Username" aria-describedby="basic-addon1" name="loginEmail">
-                                        </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <img src="../images/banner-2.jpg" class="d-block w-100" alt="...">
+                                <div class="carousel-caption rounded-3 col-md-6 d-md-block bg-light content-section-slide">
+                                    <h2 style="color: #D6177D;">Login</h2>
+                                    <p style="text-align: justify;">Students and professors are login into this application and trying to create a communication environment. It helps in the academic syllabus when the yearly job getting reports will be generated by this application.
+                                    </p>
+                                    <!--  <a href="#">Read More</a>-->
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                    </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------------------  End banner Part --------------------->
+
+    <div class="about-us mt-4 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 content-area d-flex justify-content-center mt-5">
+                    <div class="col-md-8 text-center">
+                        <h2><b>ABOUT US</b></h2>
+                        <p style="text-align: justify;">Now isn’t the time to stand still. New technologies, new competitors, new challenges and new expectations are changing our world forever. We need to act bold, be innovative and transform the way we think to create the university
+                            of the future. Passionate about achieving student, research, staff, and global success, we’re investing in the future to build on our strong foundations. We’ll grow our campus and provide the best facilities and most technologically
+                            advanced learning. We’ll deliver unrivalled support and a high quality learning experience to provide everyone with the skills they need for the future. We’ll further develop our partnerships and networks regionally and globally.
+                            We’ll support enterprise and start-ups. We’ll also tackle the world’s big challenges and pursue groundbreaking research with global significance.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12 content-boxes mt-4">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <div class="col-md-12 number-boxes icon-text">
+                                <div class="icon-box d-flex align-items-center">
+                                    <div class="col-md-2">
+                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <label for="password" class="mb-2">Password:</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
-                                            <input type="password" class="form-control rounded-0" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1" name="password">
-                                        </div>
+                                    <div class="col-md-10">
+                                        <h5>Education</h5>
                                     </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                                </div>
+                                <div class="content">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                                        to make a type specimen book.</p>
+                                    <a href="#">Undergraduate Education <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <div class="col-md-12 number-boxes icon-text">
+                                <div class="icon-box d-flex align-items-center">
+                                    <div class="col-md-2">
+                                        <i class="fa fa-male" aria-hidden="true"></i>
                                     </div>
-                                    <div class="btn-group-login mt-2">
-                                        <a href="/student-dashboard" class="btn btn-magenta w-100 text-uppercase rounded-0" name="loginBtn">Login</a>
+                                    <div class="col-md-10">
+                                        <h5>Campus Life</h5>
                                     </div>
-                                    <div class="col-12 text-center mt-4">
-                                        <div class="form-check">
-                                            <label class="form-check-label" for="gridCheck">DON'T HAVE AN ACCOUNT ? </label> <a class="text-uppercase anchor-magenta" href="/register" name="signupBtn">Sign up</a>
-                                        </div>
+                                </div>
+                                <div class="content">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                                        to make a type specimen book.</p>
+                                    <a href="#">Undergraduate Education <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <div class="col-md-12 number-boxes icon-text">
+                                <div class="icon-box d-flex align-items-center">
+                                    <div class="col-md-2">
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
                                     </div>
-                                </form>
+                                    <div class="col-md-10">
+                                        <h5>Free Courses</h5>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                                        to make a type specimen book.</p>
+                                    <a href="#">Undergraduate Education <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
 
-    </html>
+    <!---------- End about section ------------------------------>
+
+    <div class="footer py-5 bg-dark mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-light">
+                    <img src="../images/logo.png" style="width: 200px;">
+                    <p class="mt-4">UEA research is making real-world impact. That’s why 91 per cent of UEA research has been rated 'world-leading' or 'internationally excellent' by the Research Excellence Framework (REF2021). We’re also in the UK top 20 for research
+                        quality*. UEA is a globally significant centre of research that drives global change. We bring fresh thinking to the major challenges facing society, helping to create a better future for all.</p>
+                </div>
+                <div class="col-md-2 footer-menu text-light">
+                    <h5><b>About us</b></h5>
+                    <ul class="p-0">
+                        <li><a href="#">Financial Aid</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Acedemic</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 footer-menu text-light">
+                    <h5><b>Services</b></h5>
+                    <ul class="p-0">
+                        <li><a href="#">Facility Services</a></li>
+                        <li><a href="#">Time Schedule</a></li>
+                        <li><a href="#">Pay My Tuition</a></li>
+                        <li><a href="#">Human Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 footer-menu last text-light">
+                    <h5><b>Contact us</b></h5>
+                    <ul class="p-0">
+                        <li><a href="#">Email : Admin@gmail.com</a></li>
+                        <li><a href="#">Phone number : 000-000-0000</a></li>
+                        <li class="follow-section"><a href="#">Follow us on :<i class="fa fa-facebook" aria-hidden="true"></i><i class="fa fa-twitter" aria-hidden="true"></i><i class="fa fa-instagram" aria-hidden="true"></i><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-footer-align text-center">
+                    All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-------------End banner part -------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/dataTables.bootstrap5.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -9,19 +9,19 @@
                         <div class="row">
                             <nav class="col-md-12 navbar">
                                 <div class="container-fluid d-flex justify-content-center">
-                                    <a class="navbar-brand text-center" href="login.html"><img class="logo-login" src="../images/logo.png"></a>
+                                    <a class="navbar-brand text-center" href="/"><img class="logo-login" src="../images/logo.png"></a>
                                 </div>
                             </nav>
                             <div class="col-md-12 main-form">
                                 <h2>
-                                    <center><b>Register</b></center>
+                                    <center><b><%- type-%> Registration</b></center>
                                 </h2>
-                                <form class="row mt-4 login-signup">
+                                <form class="row mt-4 login-signup" action="register" method="post" enctype="text/html">
                                     <div class="col-md-6 form-group">
                                         <label for="firstname" class="form-label">Firstname:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                            <input type="text" class="form-control rounded-0" placeholder="First name" aria-label="firstName" aria-describedby="basic-addon1" name="firstName">
+                                            <input type="text" class="form-control rounded-0" placeholder="First Name" aria-label="firstName" aria-describedby="basic-addon1" name="firstName">
                                         </div>
                                     </div>
                                     <div class="col-md-6 form-group">
@@ -29,6 +29,23 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
                                             <input type="text" class="form-control rounded-0" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon1" name="lastName">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group mb-3">
+                                        <label for="coursetype" class="form-label">Department:</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="course"></i></span>
+                                            <select id="selected" class="form-select rounded-0" name="type">
+                                           <option selected><%- type-%></option>
+            
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for="course" class="form-label">Department:</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control rounded-0" placeholder="Department" aria-label="course" aria-describedby="basic-addon1" name="department">
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-group">
@@ -54,10 +71,10 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label for="coursetype" class="form-label">Type:</label>
-                                        <select id="selected" class="form-select rounded-0">
-                    <option selected>Student</option>
-                    <option>Dummy</option>
-                  </select>
+                                        <select id="selected" class="form-select rounded-0" name="type">
+                                           <option selected><%- type-%></option>
+            
+                                        </select>
                                     </div>
                                     <div class="col-12 mt-3">
                                         <button type="submit" class="btn btn-magenta w-100 rounded-0 text-uppercase">Sign up</button>
