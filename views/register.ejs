@@ -1,4 +1,6 @@
 <%- include('header') %>
+    <script>
+    </script>
 
     <body class="register__dashboard">
         <div class="bg-image register" style="background-image: url('../images/bg-image.jpg');">
@@ -31,11 +33,18 @@
                                             <input type="text" class="form-control rounded-0" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon1" name="lastName">
                                         </div>
                                     </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for="course" class="form-label">Email:</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                                            <input type="email" class="form-control rounded-0" placeholder="Enter email" aria-label="course" aria-describedby="basic-addon1" name="email">
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 form-group mb-3">
                                         <label for="coursetype" class="form-label">Department:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="course"></i></span>
-                                            <select id="selected" class="form-select rounded-0" name="type">
+                                            <select id="Department" class="form-select rounded-0" name="type">
                                            <option selected><%- type-%></option>
             
                                         </select>
@@ -55,13 +64,7 @@
                                             <input type="text" class="form-control rounded-0" placeholder="Course" aria-label="course" aria-describedby="basic-addon1" name="course">
                                         </div>
                                     </div>
-                                    <div class="col-md-12 form-group">
-                                        <label for="course" class="form-label">Email:</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                                            <input type="email" class="form-control rounded-0" placeholder="Enter email" aria-label="course" aria-describedby="basic-addon1" name="email">
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-12 form-group">
                                         <label for="password" class="mb-2">Password:</label>
                                         <div class="input-group mb-3">

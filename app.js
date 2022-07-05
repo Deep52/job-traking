@@ -7,6 +7,7 @@ const path = require("path");
 const config = require("./config.js")[env];
 const Pool = require("pg").Pool;
 const bodyParser = require("body-parser");
+const { count } = require("console");
 
 
 
@@ -32,7 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(express.urlencoded());
 
-//const client = new Pool(config);
+const client = new Pool(config);
 
 //route for index page
 app.get("/", function(req, res) {
@@ -74,9 +75,29 @@ app.get("/add-job", function(req, res) {
 
 app.post("/register", async(req, res, next) => {
     const { firstName, lastName, email, password, course, type } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
 });
+app.post("/dept", async(req, res, next) => {
+    //console.log('kjgk');
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    await client.query("SELECT id, dept_full_name, dept, s_date	FROM public.department;").then(results => {
+        // console.log(results.rowCount);
+
+        for (i = 1; i < results.rowCount; i++) {
+
+            var data = '<option value=' + results.rows[i].id + '>' + results.rows[i].dept + '</option>';
+
+
+        }
+
+        res.send(data);
+
+    });
+
+});
+
 
 
 
