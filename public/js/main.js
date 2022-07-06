@@ -6,7 +6,9 @@ $(document).ready(function() {
             // data: data,
             dataType: 'text'
         }).done(function(data) {
-            alert(data);
+            alert(data)
+                // document.getElementById("fill").innerHTML = data;
+
         });
     });
 });
