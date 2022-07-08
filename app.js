@@ -83,17 +83,17 @@ app.post("/dept", async(req, res, next) => {
     const pool = new Pool(config);
     const client = await pool.connect();
     await client.query("SELECT id, dept_full_name, dept, s_date	FROM public.department;").then(results => {
-        console.log(results.rowCount);
+        //console.log(results.rowCount);
         //await client.query("SELECT COUNT(*)FROM public.department;").then(results => {
 
 
-        for (i = 1; i < results.rowCount; i++) {
-            // data.push(i);
-            data = [i];
-            data = '<option value=' + results.rows[i].id + '>' + results.rows[i].dept + '</option>';
+        //for (i = 1; i < results.rowCount; i++) {
+        // data.push(i);
+        // data = [i];
+        // data = '<option value=' + results.rows[i].id + '>' + results.rows[i].dept + '</option>';
 
-            res.send(data);
-        }
+        res.send(results.rows);
+        // }
         //  res.send(results.rowCount);
 
     });

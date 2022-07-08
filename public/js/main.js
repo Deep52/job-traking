@@ -4,11 +4,25 @@ $(document).ready(function() {
             type: 'POST',
             url: '/dept',
             // data: data,
-            dataType: 'text'
+            contentType: "application/json",
+            dataType: "json"
         }).done(function(data) {
-            alert(data)
-                // document.getElementById("fill").innerHTML = data;
+            let options = '';
+            //alert('1');
+            $.each(data, function(i, d) {
+                var x = document.getElementById("Department");
+                var opt = document.createElement('option');
+                opt.value = d.id;
+                opt.id = "dept";
+
+                opt.innerHTML = d.dept_full_name;
+                x.appendChild(opt);
+                // x.add(opt);
+
+
+            });
 
         });
     });
+
 });
