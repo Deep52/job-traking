@@ -7,22 +7,36 @@ $(document).ready(function() {
             contentType: "application/json",
             dataType: "json"
         }).done(function(data) {
-            let options = '';
-            //alert('1');
+
+            //x.removeChild();
+            // x.innerHTML = '';
+            var x = document.getElementById("Department");
+            x.innerHTML = '';
             $.each(data, function(i, d) {
-                var x = document.getElementById("Department");
+
+
+                // $('#Department').append('<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>');
+                // var opt = '<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>';
+
                 var opt = document.createElement('option');
+
                 opt.value = d.id;
                 opt.id = "dept";
-
                 opt.innerHTML = d.dept_full_name;
-                x.appendChild(opt);
-                // x.add(opt);
+                x.append(opt);
+
+
+                //x.add(opt);
 
 
             });
 
-        });
-    });
 
+        });
+
+    });
+    $('#Department').on('change', function() {
+        var value = $(this).val();
+        // alert(value);
+    });
 });
