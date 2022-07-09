@@ -83,22 +83,28 @@ app.post("/dept", async(req, res, next) => {
     const pool = new Pool(config);
     const client = await pool.connect();
     await client.query("SELECT id, dept_full_name, dept, s_date	FROM public.department;").then(results => {
-        //console.log(results.rowCount);
-        //await client.query("SELECT COUNT(*)FROM public.department;").then(results => {
-
-
-        //for (i = 1; i < results.rowCount; i++) {
-        // data.push(i);
-        // data = [i];
-        // data = '<option value=' + results.rows[i].id + '>' + results.rows[i].dept + '</option>';
-
         res.send(results.rows);
-        // }
-        //  res.send(results.rowCount);
+
+
+    });
+});
+app.post("/course", async(req, res, next) => {
+
+    dept_id = req.body.value;
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    await client.query("SELECT course_full_name, couse, level FROM public.course where dept_id=$1", [dept_id]).then(results1 => {
+        console.log(results1.rows);
+        res.send(results1.rows);
+
 
     });
 
 });
+
+
+
+//course
 
 
 
