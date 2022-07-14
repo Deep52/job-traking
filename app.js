@@ -74,8 +74,8 @@ app.get("/add-job", function(req, res) {
 // register user function
 
 app.post("/register", async(req, res, next) => {
-    const { firstName, lastName, email, password, course, type } = req.body;
-    // console.log(req.body);
+    // const { firstName, lastName, email, password, course, type } = req.body;
+    console.log(req.body);
 
 });
 app.post("/dept", async(req, res, next) => {
@@ -90,11 +90,12 @@ app.post("/dept", async(req, res, next) => {
 });
 app.post("/course", async(req, res, next) => {
 
-    dept_id = req.body.value;
+    //  dept_id = req.body.value;
     const pool = new Pool(config);
     const client = await pool.connect();
-    await client.query("SELECT course_full_name, couse, level FROM public.course where dept_id=$1", [dept_id]).then(results1 => {
-        console.log(results1.rows);
+    // await client.query("SELECT id,course_full_name, couse, level FROM public.course where dept_id=$1", [dept_id]).then(results1 => {
+    await client.query("SELECT id,course_full_name, couse, level FROM public.course").then(results1 => {
+        // console.log(results1.rows);
         res.send(results1.rows);
 
 

@@ -20,31 +20,31 @@
                                 </h2>
                                 <form class="row mt-4 login-signup" action="register" method="post" enctype="text/html">
                                     <div class="col-md-6 form-group">
-                                        <label for="firstname" class="form-label">Firstname:</label>
+                                        <label for="firstname" class="form-label">First Name:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                            <input type="text" class="form-control rounded-0" placeholder="First Name" aria-label="firstName" aria-describedby="basic-addon1" name="firstName">
+                                            <input type="text" class="form-control rounded-0" placeholder="First Name" aria-label="firstName" aria-describedby="basic-addon1" name="firstName" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 form-group">
-                                        <label for="firstname" class="form-label">Lastname:</label>
+                                        <label for="firstname" class="form-label">Last Name:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                            <input type="text" class="form-control rounded-0" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon1" name="lastName">
+                                            <input type="text" class="form-control rounded-0" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon1" name="lastName" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-group">
-                                        <label for="course" class="form-label">Email:</label>
+                                        <label for="course" class="form-label">Enter UEA Email:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                                            <input type="email" class="form-control rounded-0" placeholder="Enter email" aria-label="course" aria-describedby="basic-addon1" name="email">
+                                            <input type="email" class="form-control rounded-0" placeholder="Enter email" aria-label="course" aria-describedby="basic-addon1" name="email" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-group mb-3">
                                         <label for="coursetype" class="form-label">Department:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="course"></i></span>
-                                            <select id="Department" class="form-select rounded-0" name="type">
+                                            <select id="Department" class="form-select rounded-0" name="Department" required>
                                            <option></option>
             
                                         </select>
@@ -54,31 +54,39 @@
                                         <label for="course" class="form-label">Course:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="true"></i></span>
-                                            <select id="course" class="form-select rounded-0" name="type">
-                                           <option></option>
+                                            <select id="course" class="form-select rounded-0" name="course" required>
+                                           <option value="">Select Department First  </option>
             
                                         </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 form-group">
+                                    <!---- <div class="col-md-12 form-group">
                                         <label for="course" class="form-label">Course:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="true"></i></span>
                                             <input type="text" class="form-control rounded-0" placeholder="Course" aria-label="course" aria-describedby="basic-addon1" name="course">
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="col-md-12 form-group">
                                         <label for="password" class="mb-2">Password:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
-                                            <input type="password" class="form-control rounded-0" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1" name="password">
+                                            <input type="password" class="form-control rounded-0" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1" name="password" id="password" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for="password" class="mb-2">Confirm Password:</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                            <input type="password" class="form-control rounded-0" placeholder="Confirm password" aria-label="password" aria-describedby="basic-addon1" name="confirm_password" id="confirm-password" required>
+                                            <div class="col-md-12 form-group" id="error"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="coursetype" class="form-label">Type:</label>
                                         <select id="selected" class="form-select rounded-0" name="type">
-                                           <option selected><%- type-%></option>
+                                           <option ><%- type-%></option>
             
                                         </select>
                                     </div>
