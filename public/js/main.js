@@ -58,6 +58,10 @@ $(document).ready(function() {
             // alert(c.couse);
 
         });
+        $("#password").click(function() {
+            $('#error_display').text('');
+
+        });
         $("#confirm-password").focusout(function() {
 
             var p_val = $('#password').val();
@@ -66,13 +70,13 @@ $(document).ready(function() {
                 $('#error').text('Password is Match');
                 $("#error").css({ 'color': 'green' });
                 $("#error").css({ 'text-align': 'center' });
-                return true;
+                //return true;
 
             } else {
                 $('#error').text('Password don`t Match');
                 $("#error").css({ 'color': 'Red' });
                 $("#error").css({ 'text-align': 'center' });
-                return false;
+                // return false;
 
 
             }

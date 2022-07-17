@@ -8,8 +8,16 @@ const config = require("./config.js")[env];
 const Pool = require("pg").Pool;
 const bodyParser = require("body-parser");
 const { count } = require("console");
+//const bodyParser = require("body-parser");
 const { createHash, scryptSync, randomBytes } = require('crypto');
-
+const { clearScreenDown } = require("readline");
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const helmet = require("helmet");
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotallySecretKey');
 
 
 
@@ -33,8 +41,30 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(express.urlencoded());
+//cookie
+app.use(cookieParser());
+
+// parse application/json
+app.use(bodyParser.json());
+
+// parse application/x-www-form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const client = new Pool(config);
+// variable initialization
+error = '';
+color = '';
+
+
+// session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
+
 
 //route for index page
 app.get("/", function(req, res) {
@@ -60,8 +90,38 @@ app.get("/register_professor", function(req, res) {
 app.get("/register_admin", function(req, res) {
     res.render("register", { type: 'Admin' });
 });
-app.get("/student-dashboard", function(req, res) {
-    res.render("student-dashboard");
+app.get("/Student-dashboard", function(req, res) {
+    if (req.cookies.session_id) {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
+    } else {
+
+        res.render("index");
+    }
+
+
+});
+app.get("/Professor-dashboard", function(req, res) {
+    if (req.cookies.session_id) {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("Professor-dashboard", { type: req.cookies.type, id: user_id });
+    } else {
+
+        res.render("index");
+    }
+
+
+});
+app.get("/Admin-dashboard", function(req, res) {
+    if (req.cookies.session_id) {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("Admin-dashboard", { type: req.cookies.type, id: user_id });
+    } else {
+
+        res.render("index");
+    }
+
+
 });
 app.get("/add-job", function(req, res) {
     res.render("add-job");
@@ -95,28 +155,157 @@ app.post("/register", async(req, res, next) => {
     let year = date_ob.getFullYear();
 
     const start_date = year + "-" + month + "-" + date;
-    if (req.body.type == 'Student') {
-        var type_access = '3';
-    }
-    if (req.body.type == 'Professor') {
-        var type_access = '2';
+
+    //console.log(type_access);
+    if (req.body.confirm_password == req.body.password) {
+
+
+
+        if (req.body.type == 'Student') {
+            var type_access = '3';
+
+
+            await client.query("SELECT * FROM public.login where email=$1 and type=$2", [email, type]).then(results => {
+                if (results.rowCount >= 1) {
+                    res.render("register", { type: 'Student', error: 'Student Already Register.Please <a class="text-uppercase anchor-magenta" href="/login_student" name="signupBtn">Login</a>', color: 'red' });
+
+
+                } else {
+
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department,course) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'S', Department, course]).then(results_insert => {
+                        //console.log(results_insert);
+                        res.render("register", { type: 'Student', error: 'User Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_student" name="signupBtn">Login</a> ', color: 'green' });
+                    });
+
+
+                }
+
+            });
+        }
+        if (req.body.type == 'Professor') {
+            var type_access = '2';
+
+
+            await client.query("SELECT * FROM public.login where email=$1 and type=$2", [email, type]).then(results => {
+                if (results.rowCount >= 1) {
+                    res.render("register", { type: 'Professor', error: 'User Already Register.Please <a class="text-uppercase anchor-magenta" href="/login_Professor" name="signupBtn">Login</a>', color: 'red' });
+
+
+                } else {
+
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department]).then(results_insert => {
+                        //console.log(results_insert);
+                        res.render("register", { type: 'Professor', error: 'Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_Professor" name="signupBtn">Login</a> ', color: 'green' });
+                    });
+
+
+                }
+
+            });
+
+
+        }
+        if (req.body.type == 'Admin') {
+            var type_access = '1';
+            await client.query("SELECT * FROM public.login where email=$1 and type=$2", [email, type]).then(results => {
+                if (results.rowCount >= 1) {
+                    res.render("register", { type: 'Admin', error: 'User Already Register.Please <a class="text-uppercase anchor-magenta" href="/login_Admin" name="signupBtn">Login</a> ', color: 'red' });
+
+
+                } else {
+
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department]).then(results_insert => {
+                        //console.log(results_insert);
+                        res.render("register", { type: 'Admin', error: 'Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_Admin" name="signupBtn">Login</a> ', color: 'green' });
+                    });
+
+                }
+
+            });
+
+
+
+        }
+        // const { firstName, lastName, email, password, course, type } = req.body;
+        // console.log(req.body.firstName);
     } else {
-        var type_access = '1';
+
+        res.render("register", { type: req.body.type, error: 'Password Does Not match. Please Try Again  ', color: 'red' });
+
     }
-    console.log(type);
-
-    //const date = date();
-    // const type_access = '';
-
-    const result = await client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start-date) VALUES ($1, $2, $3, $4, $5,$6,$7,$8) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date]).then(results_insert => {
+});
 
 
+
+
+// Login User Function 
+
+app.post("/login", async(req, res, next) => {
+
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    const { email, password, type } = req.body;
+
+    await client.query("SELECT * FROM public.login where email=$1 and type=$2", [email, type]).then(results => {
+        // console.log(results.rows);
+        const get_salt = results.rows[0].salt;
+        const hashedPassword_c = hash(password + get_salt);
+        client.query("SELECT * FROM public.login where email=$1 and type=$2 and password=$3", [email, type, hashedPassword_c]).then(results_login => {
+            if (results_login.rows[0].typebyadmin == 'S') {
+                sess = req.session;
+                sess.id = req.session.id;
+                sess.type = req.body.type;
+                encryptedString = cryptr.encrypt(results_login.rows[0].id);
+
+                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
+                let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
+                let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
+                res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id });
+            }
+            if (results_login.rows[0].typebyadmin == 'P') {
+                sess = req.session;
+                sess.id = req.session.id;
+                encryptedString = cryptr.encrypt(results_login.rows[0].id);
+
+                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
+                let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
+                let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
+                res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id });
+            }
+            if (results_login.rows[0].typebyadmin == 'A') {
+                sess = req.session;
+                sess.id = req.session.id;
+                encryptedString = cryptr.encrypt(results_login.rows[0].id);
+
+                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
+                let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
+                let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
+                res.render("Admin-dashboard", { type: req.body.type, id: results_login.rows[0].id });
+            }
+            if (results_login.rows[0].typebyadmin == 'N') {
+
+                res.render("login", { type: req.body.type, error: 'Admin does not give permission to login as a `' + req.body.type + '`. Please wait for admin permission ', color: '#D61791' });
+            }
+
+
+        }).catch(err => {
+            // console.log('email or username is not correct')
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+            res.render("login", { type: req.body.type, error: 'Email ID or Password is wrong', color: 'red' });
+
+        });
+        //console.log(hashedPassword_c);
 
     });
-    // const { firstName, lastName, email, password, course, type } = req.body;
-    // console.log(req.body.firstName);
 
 });
+
+
+
+
+
+
+
 app.post("/dept", async(req, res, next) => {
     //console.log('kjgk');
     const pool = new Pool(config);
@@ -133,6 +322,7 @@ app.post("/course", async(req, res, next) => {
     const pool = new Pool(config);
     const client = await pool.connect();
     // await client.query("SELECT id,course_full_name, couse, level FROM public.course where dept_id=$1", [dept_id]).then(results1 => {
+
     await client.query("SELECT id,course_full_name, couse, level FROM public.course").then(results1 => {
         // console.log(results1.rows);
         res.send(results1.rows);

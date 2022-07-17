@@ -16,14 +16,18 @@
                                 <h2>
                                     <center><b><%- type-%> Login</b></center>
                                 </h2>
-                                <form action="#" class="login-signup">
+                                <center style="color:<%- color -%>" id="error_display">
+                                    <%- error-%>
+                                </center>
+                                <form action="login" class="login-signup" method="post" enctype="text/html">
                                     <div class="form-group mb-3">
-                                        <label for="email" class="mb-2">Username:</label>
+                                        <label for="email" class="mb-2">UEA Email:</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                            <input type="email" class="form-control rounded-0" placeholder="Enter Email" aria-label="Username" aria-describedby="basic-addon1" name="loginEmail">
+                                            <input type="email" class="form-control rounded-0" placeholder="Enter Email" aria-label="Username" aria-describedby="basic-addon1" name="email">
                                         </div>
                                     </div>
+                                    <input type="hidden" value="<%- type-%>" name="type">
                                     <div class="form-group mb-3">
                                         <label for="password" class="mb-2">Password:</label>
                                         <div class="input-group mb-3">
@@ -32,11 +36,11 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <!----  <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                                    </div>
+                                    --></div>
                                     <div class="btn-group-login mt-2">
-                                        <a href="/student-dashboard" class="btn btn-magenta w-100 text-uppercase rounded-0" name="loginBtn">Login</a>
+                                        <input type="submit" class="btn btn-magenta w-100 text-uppercase rounded-0" value="Login" name="loginBtn">
                                     </div>
                                     <div class="col-12 text-center mt-4">
                                         <div class="form-check">
