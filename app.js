@@ -18,14 +18,15 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotallySecretKey');
-
+const formidable = require('formidable');
+const fs = require('fs');
 
 
 //set view engine to use ejs templates
 app.set("view engine", "ejs");
 
 // parse application/x-www-form-urlencoded
-app.use(express.json())
+//app.use(express.json())
 app.use(express.urlencoded());
 
 //use router for articles   
@@ -45,11 +46,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // parse application/json
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 // parse application/x-www-form-urlencoded
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
+
+//file upload
+//app.post('/add_job', add_job);
 
 const client = new Pool(config);
 // variable initialization
@@ -114,8 +118,10 @@ app.get("/Professor-dashboard", function(req, res) {
 });
 app.get("/Admin-dashboard", function(req, res) {
     if (req.cookies.session_id) {
-        const user_id = cryptr.decrypt(req.cookies.user_id);
-        res.render("Admin-dashboard", { type: req.cookies.type, id: user_id });
+        client.query("SELECT * FROM public.login  where id !='23' ORDER BY start_date DESC").then(records => {
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+            res.render("Admin-dashboard", { type: req.cookies.type, id: user_id, records: records.rows });
+        });
     } else {
 
         res.render("index");
@@ -124,7 +130,14 @@ app.get("/Admin-dashboard", function(req, res) {
 
 });
 app.get("/add-job", function(req, res) {
-    res.render("add-job");
+    if (req.cookies.session_id) {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("add-job", { type: req.cookies.type, id: user_id });
+    } else {
+
+        res.render("index");
+    }
+
 });
 // create hashing function
 function hash(input) {
@@ -172,7 +185,7 @@ app.post("/register", async(req, res, next) => {
 
                 } else {
 
-                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department,course) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'S', Department, course]).then(results_insert => {
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department,course,admintype) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'S', Department, course, 'NA']).then(results_insert => {
                         //console.log(results_insert);
                         res.render("register", { type: 'Student', error: 'User Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_student" name="signupBtn">Login</a> ', color: 'green' });
                     });
@@ -193,7 +206,7 @@ app.post("/register", async(req, res, next) => {
 
                 } else {
 
-                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department]).then(results_insert => {
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department,admintype) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,£11) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department, 'GA']).then(results_insert => {
                         //console.log(results_insert);
                         res.render("register", { type: 'Professor', error: 'Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_Professor" name="signupBtn">Login</a> ', color: 'green' });
                     });
@@ -214,7 +227,7 @@ app.post("/register", async(req, res, next) => {
 
                 } else {
 
-                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department]).then(results_insert => {
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department,admintype) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department, 'GA']).then(results_insert => {
                         //console.log(results_insert);
                         res.render("register", { type: 'Admin', error: 'Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_Admin" name="signupBtn">Login</a> ', color: 'green' });
                     });
@@ -280,7 +293,12 @@ app.post("/login", async(req, res, next) => {
                 let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
                 let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
                 let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
-                res.render("Admin-dashboard", { type: req.body.type, id: results_login.rows[0].id });
+                client.query("SELECT * FROM public.login  where id !='23' ORDER BY start_date DESC").then(records => {
+                    // console.log(record);
+                    res.render("Admin-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows });
+                });
+
+
             }
             if (results_login.rows[0].typebyadmin == 'N') {
 
@@ -296,9 +314,130 @@ app.post("/login", async(req, res, next) => {
         });
         //console.log(hashedPassword_c);
 
+    }).catch(err => {
+        // console.log('email or username is not correct')
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        res.render("login", { type: req.body.type, error: 'Email ID or Password is wrong', color: 'red' });
+
     });
+});
+
+
+
+app.post("/accesbyadmin", async(req, res, next) => {
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    if (req.body.access == 'N' && req.body.type == 'Professor') {
+        type_change = 'P';
+
+    }
+    if (req.body.access == 'P' && req.body.type == 'Professor') {
+        type_change = 'N';
+
+    }
+    if (req.body.access == 'N' && req.body.type == 'Admin') {
+        type_change = 'A';
+
+    }
+    if (req.body.access == 'A' && req.body.type == 'Admin') {
+        type_change = 'N';
+
+    }
+    if (req.body.access == 'S' && req.body.type == 'Student') {
+        type_change = 'N';
+
+    }
+    if (req.body.access == 'N' && req.body.type == 'Student') {
+        type_change = 'S';
+
+    }
+
+    await client.query(`UPDATE public.login	SET typebyadmin='${type_change}'	WHERE id='${req.body.id}'`).then(update_access => {
+        if (update_access.rowCount == '1') {
+            client.query("SELECT * FROM public.login where id=$1", [req.body.id]).then(update_record => {
+
+                res.send(update_record.rows);
+                //console.log(update_record.rows);
+
+            });
+
+        }
+
+
+
+    });
+    //console.log(req.body);
 
 });
+
+
+// add job function 
+app.post("/add-job", async(req, res, next) => {
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    const user_id1 = cryptr.decrypt(req.cookies.user_id);
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+    const { company_name, title, qualified, failed_in, resume_upload, feedback, user_id } = req.body;
+    // console.log(req.body);
+    const start_date = year + "-" + month + "-" + date;
+    //console.log(start_date);
+    // create an incoming form object
+    var form = new formidable.IncomingForm();
+    // specify that we want to allow the user to upload multiple files in a single request
+    //form.multiples = true;
+    //  form.keepExtensions = true;
+    // store all uploads in the /uploads directory
+    // file.path = path.join(__dirname, `public/upload/${resume_upload}`);
+    form.uploadDir = path.basename(path.dirname(`../upload/`));
+
+    // console.log(resume_upload);
+    //console.log(form.uploadDir);
+
+    // every time a file has been uploaded successfully,
+
+    // once all the files have been uploaded, send a response to the client
+
+    // parse the incoming request containing the form data
+
+    await client.query("INSERT INTO public.addjob(company_name, job_tittle, qualified,failed_in, resume_name,feedback,user_id, response, create_date) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9) RETURNING *", [company_name, title, qualified, failed_in, resume_upload, feedback, user_id1, 'N', start_date]).then(results_job => {
+
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
+        res.render("add-job", { type: res.cookie.type, error: 'Your Job Successfully added', color: 'green' });
+
+    }).catch(err => {
+        // console.log('email or username is not correct')
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        res.render("add-job", { type: res.cookie.type, error: 'Your Job Does Not Added. Please Try Again', color: 'red' });
+
+    });
+
+    // log any errors that occur
+    form.on('error', function(err) {
+        console.log('An error has occured: \n' + err);
+    });
+    // once all the files have been uploaded, send a response to the client
+
+
+    // console.log(req.body);
+
+});
+
+
+
+
+
+
+
+
+
 
 
 

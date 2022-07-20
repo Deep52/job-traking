@@ -86,7 +86,32 @@ $(document).ready(function() {
 
 
     });
+    $(".adminacces").click(function() {
+        var id = $(this).attr("id");
+        let access = $(this).val();
+        type = id.split("-");
+        //alert(dd[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/accesbyadmin',
+            data: {
+                "id": type[1],
+                "access": access,
+                "type": type[0],
+            },
+            // contentType: "application/json",
+            dataType: "json"
+        }).done(function(data) {
+            $.each(data, function(i, u) {
+                $('.' + id).val(u.typebyadmin);
+                //alert(u.typebyadmin);
+                // alert(id);
+            });
 
 
-    //});
+
+
+
+        });
+    });
 });

@@ -364,4 +364,16 @@ body {
 }
 
 
+/* checkbox  */
+
+.design {
+    text-align: left;
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 4.4em;
+    padding-right: 0.4em;
+    height: 111px;
+}
+
+
 /* End css */
