@@ -6,7 +6,7 @@ const PORT = 5000;
 const path = require("path");
 const config = require("./config.js")[env];
 const Pool = require("pg").Pool;
-const bodyParser = require("body-parser");
+var bodyParser = require("body-parser");
 const { count } = require("console");
 //const bodyParser = require("body-parser");
 const { createHash, scryptSync, randomBytes } = require('crypto');
@@ -20,8 +20,15 @@ const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotallySecretKey');
 const formidable = require('formidable');
 const fs = require('fs');
+const fileUpload = require('express-fileupload');
+//const app = express();
 
+// default options
+app.use(fileUpload());
+//const path = require('path');
 
+//const formidable = require("formidable");
+//app = express();
 //set view engine to use ejs templates
 app.set("view engine", "ejs");
 
@@ -44,7 +51,7 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(express.urlencoded());
 //cookie
 app.use(cookieParser());
-
+//app.use(express.bodyParser());
 // parse application/json
 //app.use(bodyParser.json());
 
@@ -385,28 +392,19 @@ app.post("/add-job", async(req, res, next) => {
     // current year
     let year = date_ob.getFullYear();
     const { company_name, title, qualified, failed_in, resume_upload, feedback, user_id } = req.body;
-    // console.log(req.body);
+    console.log(req.files.resume_upload.name);
+    sampleFile = req.files.resume_upload;
     const start_date = year + "-" + month + "-" + date;
-    //console.log(start_date);
-    // create an incoming form object
-    var form = new formidable.IncomingForm();
-    // specify that we want to allow the user to upload multiple files in a single request
-    //form.multiples = true;
-    //  form.keepExtensions = true;
-    // store all uploads in the /uploads directory
-    // file.path = path.join(__dirname, `public/upload/${resume_upload}`);
-    form.uploadDir = path.basename(path.dirname(`../upload/`));
 
-    // console.log(resume_upload);
-    //console.log(form.uploadDir);
+    uploadPath = __dirname + '/public/upload/' + req.files.resume_upload.name;
+    console.log(uploadPath);
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(uploadPath);
 
-    // every time a file has been uploaded successfully,
 
-    // once all the files have been uploaded, send a response to the client
 
-    // parse the incoming request containing the form data
 
-    await client.query("INSERT INTO public.addjob(company_name, job_tittle, qualified,failed_in, resume_name,feedback,user_id, response, create_date) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9) RETURNING *", [company_name, title, qualified, failed_in, resume_upload, feedback, user_id1, 'N', start_date]).then(results_job => {
+    await client.query("INSERT INTO public.addjob(company_name, job_tittle, qualified,failed_in, resume_name,feedback,user_id, response, create_date) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9) RETURNING *", [company_name, title, qualified, failed_in, req.files.resume_upload.name, feedback, user_id1, 'N', start_date]).then(results_job => {
 
         res.setHeader("Content-Security-Policy", "script-src 'none'");
 
@@ -419,14 +417,8 @@ app.post("/add-job", async(req, res, next) => {
 
     });
 
-    // log any errors that occur
-    form.on('error', function(err) {
-        console.log('An error has occured: \n' + err);
-    });
-    // once all the files have been uploaded, send a response to the client
 
 
-    // console.log(req.body);
 
 });
 
