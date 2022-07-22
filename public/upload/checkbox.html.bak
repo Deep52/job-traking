@@ -1,0 +1,99 @@
+<html>
+<head>
+<style>
+.toggler-wrapper {
+	display: block;
+	width: 45px;
+	height: 25px;
+	cursor: pointer;
+	position: relative;
+}
+
+.toggler-wrapper input[type="checkbox"] {
+	display: none;
+}
+
+.toggler-wrapper input[type="checkbox"]:checked+.toggler-slider {
+	background-color: #44cc66;
+}
+
+.toggler-wrapper .toggler-slider {
+	background-color: #ccc;
+	position: absolute;
+	border-radius: 100px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 300ms ease;
+	transition: all 300ms ease;
+}
+
+.toggler-wrapper .toggler-knob {
+	position: absolute;
+	-webkit-transition: all 300ms ease;
+	transition: all 300ms ease;
+}
+
+
+.toggler-wrapper.style-24 {
+  width: 90px;
+}
+
+.toggler-wrapper.style-24 input[type="checkbox"]:checked+.toggler-slider {
+  border-color: #44cc66;
+}
+
+.toggler-wrapper.style-24 input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
+  left: calc(100% - 37.5px);
+}
+
+.toggler-wrapper.style-24 input[type="checkbox"]:checked+.toggler-slider .toggler-knob:after {
+  content: 'unblock';
+}
+
+.toggler-wrapper.style-24 .toggler-slider {
+  border-radius: 0;
+  background-color: #eb4f37;
+  border: 2px solid #eb4f37;
+}
+
+.toggler-wrapper.style-24 .toggler-knob {
+  width: 37.5px;
+  height: 25px;
+  border-radius: 0;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+}
+
+.toggler-wrapper.style-24 .toggler-knob:after {
+  content: 'block';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 75%;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+</head>
+<body>
+</style>
+<section class="buttons-wrapper">
+      <header class="text-center">
+        <h1>30 Simple CheckBox Styles</h1>
+      </header>
+      <div>
+ <label class="toggler-wrapper style-24">
+          <input type="checkbox" >
+          <div class="toggler-slider">
+            <div class="toggler-knob"></div>
+          </div>
+        </label>
+</body>	
+		</html>

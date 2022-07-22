@@ -18,9 +18,10 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotallySecretKey');
-const formidable = require('formidable');
-const fs = require('fs');
+//const formidable = require('formidable');
+//const fs = require('fs');
 const fileUpload = require('express-fileupload');
+const download = require('download');
 //const app = express();
 
 // default options
@@ -66,7 +67,7 @@ const client = new Pool(config);
 // variable initialization
 error = '';
 color = '';
-
+records = '';
 
 // session
 app.use(session({
@@ -103,11 +104,16 @@ app.get("/register_admin", function(req, res) {
 });
 app.get("/Student-dashboard", function(req, res) {
     if (req.cookies.session_id) {
+        link = __dirname + '/public/upload/';
         const user_id = cryptr.decrypt(req.cookies.user_id);
-        res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
+        client.query(`SELECT  *	FROM public.addjob where user_id='${user_id}' ORDER BY id DESC`).then(records => {
+            // console.log(records);
+            res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link });
+        });
+        //  res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
     } else {
 
-        res.render("index");
+        res.redirect("/");
     }
 
 
@@ -115,23 +121,25 @@ app.get("/Student-dashboard", function(req, res) {
 app.get("/Professor-dashboard", function(req, res) {
     if (req.cookies.session_id) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
-        res.render("Professor-dashboard", { type: req.cookies.type, id: user_id });
+        link = __dirname + '/public/upload/';
+        res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, link: link });
     } else {
 
-        res.render("index");
+        res.redirect("/");
     }
 
 
 });
 app.get("/Admin-dashboard", function(req, res) {
     if (req.cookies.session_id) {
+        link = __dirname + '/public/upload/';
         client.query("SELECT * FROM public.login  where id !='23' ORDER BY start_date DESC").then(records => {
             const user_id = cryptr.decrypt(req.cookies.user_id);
-            res.render("Admin-dashboard", { type: req.cookies.type, id: user_id, records: records.rows });
+            res.render("Admin-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link });
         });
     } else {
 
-        res.render("index");
+        res.redirect("/");
     }
 
 
@@ -139,10 +147,11 @@ app.get("/Admin-dashboard", function(req, res) {
 app.get("/add-job", function(req, res) {
     if (req.cookies.session_id) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
+
         res.render("add-job", { type: req.cookies.type, id: user_id });
     } else {
 
-        res.render("index");
+        res.redirect("/");
     }
 
 });
@@ -280,29 +289,35 @@ app.post("/login", async(req, res, next) => {
                 let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
                 let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
                 let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
-                res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id });
+                client.query(`SELECT  *	FROM public.addjob where user_id='${results_login.rows[0].id}' ORDER BY id DESC`).then(records => {
+                    // console.log(records);
+                    link = __dirname + '/public/upload/';
+                    res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link });
+                });
+                // res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id });
             }
             if (results_login.rows[0].typebyadmin == 'P') {
                 sess = req.session;
                 sess.id = req.session.id;
                 encryptedString = cryptr.encrypt(results_login.rows[0].id);
-
+                link = __dirname + '/public/upload/';
                 let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
                 let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
                 let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
-                res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id });
+
+                res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, link: link });
             }
             if (results_login.rows[0].typebyadmin == 'A') {
                 sess = req.session;
                 sess.id = req.session.id;
                 encryptedString = cryptr.encrypt(results_login.rows[0].id);
-
+                link = __dirname + '/public/upload/';
                 let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
                 let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
                 let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
                 client.query("SELECT * FROM public.login  where id !='23' ORDER BY start_date DESC").then(records => {
                     // console.log(record);
-                    res.render("Admin-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows });
+                    res.render("Admin-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link });
                 });
 
 
@@ -382,6 +397,8 @@ app.post("/accesbyadmin", async(req, res, next) => {
 app.post("/add-job", async(req, res, next) => {
     const pool = new Pool(config);
     const client = await pool.connect();
+    type = req.cookies.type;
+    // console.log(type);
     const user_id1 = cryptr.decrypt(req.cookies.user_id);
     let date_ob = new Date();
     let date = ("0" + date_ob.getDate()).slice(-2);
@@ -391,13 +408,12 @@ app.post("/add-job", async(req, res, next) => {
 
     // current year
     let year = date_ob.getFullYear();
-    const { company_name, title, qualified, failed_in, resume_upload, feedback, user_id } = req.body;
-    console.log(req.files.resume_upload.name);
-    sampleFile = req.files.resume_upload;
     const start_date = year + "-" + month + "-" + date;
-
+    const { company_name, title, qualified, failed_in, resume_upload, feedback, user_id } = req.body;
+    // console.log(req.files.resume_upload.name);
+    sampleFile = req.files.resume_upload;
     uploadPath = __dirname + '/public/upload/' + req.files.resume_upload.name;
-    console.log(uploadPath);
+    // console.log(uploadPath);
     // Use the mv() method to place the file somewhere on your server
     sampleFile.mv(uploadPath);
 
@@ -408,12 +424,12 @@ app.post("/add-job", async(req, res, next) => {
 
         res.setHeader("Content-Security-Policy", "script-src 'none'");
 
-        res.render("add-job", { type: res.cookie.type, error: 'Your Job Successfully added', color: 'green' });
+        res.render("add-job", { type: type, error: 'Your Job Successfully added', color: 'green' });
 
     }).catch(err => {
         // console.log('email or username is not correct')
         res.setHeader("Content-Security-Policy", "script-src 'none'");
-        res.render("add-job", { type: res.cookie.type, error: 'Your Job Does Not Added. Please Try Again', color: 'red' });
+        res.render("add-job", { type: type, error: 'Your Job Does Not Added. Please Try Again', color: 'red' });
 
     });
 
@@ -422,11 +438,94 @@ app.post("/add-job", async(req, res, next) => {
 
 });
 
+// delete job function
+app.get('/job-delete/:id', function(req, res, next) {
+
+    const job_id = req.params.id;
+    if (req.cookies.session_id) {
+        const client = new Pool(config);
+        sess = req.session;
+        client.query("DELETE FROM public.addjob WHERE id=$1", [job_id]).then(result => {
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+
+            // res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
+            res.redirect("/Student-dashboard");
+        });
+    } else {
+        res.redirect("/");
+    }
+
+
+});
+//edit job function
+app.get('/job-edit/:id', function(req, res, next) {
+
+
+    const job_id = req.params.id;
+    if (req.cookies.session_id) {
+        const client = new Pool(config);
+        sess = req.session;
+
+        client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+            //console.log(records);
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+
+            res.render("edit-job", { type: req.cookies.type, id: user_id, records: records.rows[0] });
+            //res.redirect("/Student-dashboard");
+        });
+    } else {
+        res.redirect("/");
+    }
 
 
 
+});
+// update job function
+
+app.post("/job-edit/update-job", async(req, res, next) => {
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    type = req.cookies.type;
+    const { company_name, title, qualified, failed_in, resume_upload, feedback, user_id, id } = req.body;
+    sampleFile = req.files.resume_upload;
+    uploadPath = __dirname + '/public/upload/' + req.files.resume_upload.name;
+    // console.log(uploadPath);
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(uploadPath);
+
+    client.query(`UPDATE public.addjob	SET  company_name='${company_name}', job_tittle='${title}', qualified='${qualified}', failed_in='${failed_in}', resume_name='${req.files.resume_upload.name}', feedback='${feedback}', user_id='${user_id}'	WHERE id='${id}'`).then(records => {
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        //console.log(records);
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("edit-job", { type: req.cookies.type, error: 'Update Job Successfully added', color: 'green' });
+
+    }).catch(err => {
+        // console.log('email or username is not correct')
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        res.render("edit-job", { type: req.cookies.type, error: 'Update Does Not Successful. Please Try Again', color: 'red' });
+
+    });
+});
 
 
+// popup
+app.get('/popup/:name', function(req, res, next) {
+
+    const name = req.params.name;
+    res.download('./public/upload/' + req.params.name);
+
+
+
+});
+app.get('/job-view/:id', function(req, res, next) {
+
+    res.render("view-job", { type: req.cookies.type });
+
+
+});
 
 
 
