@@ -13,42 +13,73 @@
                                         <%- error-%>
                                     </center>
                                     <form action="add-job" class="Formcss" method="post" enctype="multipart/form-data">
-                                        <div class="col-md-12 form-group">
-                                            <label for="course" class="form-label">Company Name:</label>
-                                            <label for="course" class="form-label">Company Name:</label>
+                                        <table>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Company Name:</label>
+                                                    <label for="course" class="form-label"><%= records.company_name %></label>
 
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label for="course" class="form-label">Job Title:</label>
-                                            <label for="course" class="form-label">Job Title:</label>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Job Title:</label>
+                                                    <label for="course" class="form-label"><%= records.job_tittle %></label>
 
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label for="course" class="form-label">Qualified :</label>
-                                            <label for="course" class="form-label">Qualified :</label>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Qualified :</label>
+                                                    <label for="course" class="form-label"><%= records.qualified %></label>
 
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label for="course" class="form-label">Failed in :</label>
-                                            <label for="course" class="form-label">Failed in :</label>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Failed in :</label>
+                                                    <label for="course" class="form-label"><%= records.failed_in %></label>
 
 
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label for="course" class="form-label">Upload Resume:</label>
-                                            <label for="course" class="form-label">Upload Resume:</label>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Resume Name:</label>
+                                                    <a href="/popup/<%= records.resume_name %>" class="underline">
+                                                        <label for="course" class="form-label"><i class="bi bi-file-earmark-arrow-down-fill">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z"/>
+                                                  </svg>
+                                            <%= records.resume_name %>
 
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label for="course" class="form-label">Feedback Which You Want:</label>
-                                            <label for="course" class="form-label">Feedback Which You Want:</label>
+                                        </i></label></a>
 
-                                        </div>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Feedback Which You Want:</label>
+                                                    <label for="course" class="form-label"><%= records.feedback %></label>
 
-                                        <div class="btn-group-login mt-3">
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="course" class="form-label">Response:</label>
+                                                    <label for="course" class="form-label"><%= records.response_feedback %></label>
 
-                                        </div>
-                                        <div class="btn-group-login mt-5"></div>
+                                                </div>
+                                            </tr>
+                                            <tr>
+
+                                                <div class="btn-group-login mt-3">
+
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="btn-group-login mt-5"></div>
+                                            </tr>
                                     </form>
                                 </div>
                         </div>

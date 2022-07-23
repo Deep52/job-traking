@@ -296,6 +296,7 @@ app.post("/login", async(req, res, next) => {
                 });
                 // res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id });
             }
+
             if (results_login.rows[0].typebyadmin == 'P') {
                 sess = req.session;
                 sess.id = req.session.id;
@@ -304,8 +305,12 @@ app.post("/login", async(req, res, next) => {
                 let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
                 let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
                 let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
-
-                res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, link: link });
+                client.query(`SELECT * FROM public.login INNER JOIN public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
+                    // console.log(records);
+                    link = __dirname + '/public/upload/';
+                    res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link });
+                });
+                // res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, link: link });
             }
             if (results_login.rows[0].typebyadmin == 'A') {
                 sess = req.session;
@@ -521,15 +526,46 @@ app.get('/popup/:name', function(req, res, next) {
 
 });
 app.get('/job-view/:id', function(req, res, next) {
+    const job_id = req.params.id;
+    if (req.cookies.session_id) {
+        const client = new Pool(config);
+        sess = req.session;
 
-    res.render("view-job", { type: req.cookies.type });
+        client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+            //console.log(records);
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+
+            res.render("view-job", { type: req.cookies.type, id: user_id, records: records.rows[0] });
+            //res.redirect("/Student-dashboard");
+        });
+    } else {
+        res.redirect("/");
+    }
+
+    //  res.render("view-job", { type: req.cookies.type });
 
 
 });
 
 
+// student search function
 
 
+app.post("/Student-search", async(req, res, next) => {
+    //req.body.search
+
+    client.query("SELECT * FROM public.addjob where job_tittle like $1 or company_name like $1 ", [req.body.search]).then(records => {
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        //console.log(records);
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+
+        res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows });
+        //res.redirect("/Student-dashboard");
+    });
+
+
+});
 
 
 
