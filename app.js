@@ -566,7 +566,20 @@ app.post("/Student-search", async(req, res, next) => {
 
 
 });
+app.post("/admin-search", async(req, res, next) => {
+    //req.body.search
 
+    client.query("SELECT * FROM public.login where email like $1 or fname like $1 or lname like $1", [req.body.search]).then(records => {
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        console.log(records);
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+
+        res.render("Admin-dashboard", { type: req.cookies.type, id: user_id, records: records.rows });
+        //res.redirect("/Student-dashboard");
+    });
+
+
+});
 
 
 
