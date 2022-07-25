@@ -13,8 +13,9 @@ $(document).ready(function() {
         // x.innerHTML = '';
         var x = document.getElementById("Department");
         x.innerHTML = '';
+
         $.each(data, function(i, d) {
-            // $('#Department').append('<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>');
+            // $('#Department_course').append('<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>');
             // var opt = '<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>';
             var opt = document.createElement('option');
             opt.value = d.dept_full_name;
@@ -31,6 +32,42 @@ $(document).ready(function() {
 
     });
 
+
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/dept',
+        // data: data,
+        contentType: "application/json",
+        dataType: "json"
+    }).done(function(data) {
+
+        //x.removeChild();
+        // x.innerHTML = '';
+        var x1 = document.getElementById("Department_course");
+        x1.innerHTML = '';
+
+        $.each(data, function(i, d) {
+            // $('#Department_course').append('<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>');
+            // var opt = '<option value="' + d.id + '" id="dept" onclick="course(' + d.id + ')">' + d.dept_full_name + '</option>';
+            var opt1 = document.createElement('option');
+            opt1.value = d.id;
+            opt1.id = "dept1";
+            opt1.innerHTML = d.dept_full_name;
+            x1.append(opt1);
+
+
+            //x.add(opt);
+
+
+        });
+
+
+    });
+
+
+
     //});
     //$('#Department').on('change', function() {
     //  var val = $(this).val();
@@ -46,15 +83,15 @@ $(document).ready(function() {
         //   contentType: "application/json",
         dataType: "json",
     }).done(function(data) {
-        var x = document.getElementById("course");
-        x.innerHTML = '';
+        var x_c = document.getElementById("course");
+        x_c.innerHTML = '';
         // alert(data);
         $.each(data, function(i, c) {
-            var opt = document.createElement('option');
-            opt.value = c.course_full_name;
-            opt.id = "course";
-            opt.innerHTML = c.course_full_name;
-            x.append(opt);
+            var opt_c = document.createElement('option');
+            opt_c.value = c.course_full_name;
+            opt_c.id = "course";
+            opt_c.innerHTML = c.course_full_name;
+            x_c.append(opt_c);
             // alert(c.couse);
 
         });

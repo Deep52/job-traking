@@ -102,6 +102,24 @@ app.get("/register_professor", function(req, res) {
 app.get("/register_admin", function(req, res) {
     res.render("register", { type: 'Admin' });
 });
+app.get("/add-department", function(req, res) {
+    client.query("SELECT * FROM public.department   ORDER BY id DESC").then(records_DC => {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("add-department", { type: req.cookies.type, id: user_id, records_dc: records_DC.rows, });
+
+    });
+
+
+});
+app.get("/add-course", function(req, res) {
+    client.query("SELECT * FROM public.course   ORDER BY id DESC").then(records_DC => {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        res.render("add-course", { type: req.cookies.type, id: user_id, records_dc: records_DC.rows, });
+
+    });
+
+});
+
 app.get("/Student-dashboard", function(req, res) {
     if (req.cookies.session_id) {
         link = __dirname + '/public/upload/';
@@ -121,8 +139,13 @@ app.get("/Student-dashboard", function(req, res) {
 app.get("/Professor-dashboard", function(req, res) {
     if (req.cookies.session_id) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
-        link = __dirname + '/public/upload/';
-        res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, link: link });
+        client.query(`SELECT * FROM public.login INNER JOIN public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
+            // console.log(records);
+            link = __dirname + '/public/upload/';
+            res.render("Professor-dashboard", { type: req.body.type, id: user_id, records: records.rows, link: link });
+        });
+        //link = __dirname + '/public/upload/';
+        // res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, link: link });
     } else {
 
         res.redirect("/");
@@ -464,6 +487,52 @@ app.get('/job-delete/:id', function(req, res, next) {
 
 
 });
+// delete function of department
+
+app.get('/delete-dept/:id', function(req, res, next) {
+    const dept_id = req.params.id;
+    if (req.cookies.session_id) {
+        const client = new Pool(config);
+        sess = req.session;
+        client.query("DELETE FROM public.department WHERE id=$1", [dept_id]).then(result => {
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+
+            // res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
+            res.redirect("/add-department");
+        });
+    } else {
+        res.redirect("/");
+    }
+
+
+
+});
+// delete function of course
+
+app.get('/delete-course/:id', function(req, res, next) {
+    const course_id = req.params.id;
+    if (req.cookies.session_id) {
+        const client = new Pool(config);
+        sess = req.session;
+        client.query("DELETE FROM public.course WHERE id=$1", [course_id]).then(result => {
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+
+            // res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
+            res.redirect("/add-course");
+        });
+    } else {
+        res.redirect("/");
+    }
+
+
+
+});
+
+
 //edit job function
 app.get('/job-edit/:id', function(req, res, next) {
 
@@ -489,6 +558,7 @@ app.get('/job-edit/:id', function(req, res, next) {
 
 });
 // update job function
+
 
 app.post("/job-edit/update-job", async(req, res, next) => {
     const pool = new Pool(config);
@@ -555,7 +625,7 @@ app.get('/job-view/:id', function(req, res, next) {
 app.post("/Student-search", async(req, res, next) => {
     //req.body.search
 
-    client.query("SELECT * FROM public.addjob where job_tittle like $1 or company_name like $1 ", [req.body.search]).then(records => {
+    client.query("SELECT * FROM public.addjob where lower(job_tittle) like $1 or lower(company_name) like $1 ", [req.body.search]).then(records => {
         res.setHeader("Content-Security-Policy", "script-src 'none'");
         //console.log(records);
         const user_id = cryptr.decrypt(req.cookies.user_id);
@@ -567,17 +637,87 @@ app.post("/Student-search", async(req, res, next) => {
 
 });
 app.post("/admin-search", async(req, res, next) => {
-    //req.body.search
+    search = req.body.search;
 
-    client.query("SELECT * FROM public.login where email like $1 or fname like $1 or lname like $1", [req.body.search]).then(records => {
+    client.query("SELECT * FROM public.login where  id !='23' and lower(email) like $1 OR id !='23' and lower(fname) like $1 OR id !='23' and lower(lname) like $1 ", [req.body.search]).then(records => {
         res.setHeader("Content-Security-Policy", "script-src 'none'");
-        console.log(records);
+        //console.log(records);
         const user_id = cryptr.decrypt(req.cookies.user_id);
 
         res.render("Admin-dashboard", { type: req.cookies.type, id: user_id, records: records.rows });
         //res.redirect("/Student-dashboard");
     });
 
+
+});
+
+app.post("/add-department", async(req, res, next) => {
+    const { dept_full_name, dept } = req.body;
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+    const start_date = year + "-" + month + "-" + date;
+    const user_id = cryptr.decrypt(req.cookies.user_id);
+
+    await client.query("INSERT INTO public.department(dept_full_name,dept,s_date) VALUES ($1, $2, $3) RETURNING *", [dept_full_name, dept, start_date]).then(results_job => {
+
+        client.query("SELECT * FROM public.department   ORDER BY id DESC").then(records_DC => {
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+            res.render("add-department", { type: req.cookies.type, error: 'Successfully Add Department', id: user_id, records_dc: records_DC.rows, color: 'green' });
+
+        });
+
+        //  res.render("add-department", { type: req.cookies.type, error: 'Successfully Add Department', id: user_id, color: 'green' });
+
+
+    }).catch(err => {
+        // console.log('email or username is not correct')
+        client.query("SELECT * FROM public.department   ORDER BY id DESC").then(records_DC => {
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+            res.render("add-department", { type: req.cookies.type, error: 'Successfully Add Department', error: 'Department Name Do not Added. Please Try Again ', id: user_id, records_dc: records_DC.rows, color: 'red', });
+
+        });
+
+        //res.render("add-department", { type: req.body.type, error: 'Department Name Do not Added. Please Try Again ', id: user_id, color: 'red' });
+
+    });
+
+
+});
+// add course function
+app.post("/add-course", async(req, res, next) => {
+    const { Department, full_name_course, sort_name_course, course_catalog } = req.body;
+    const user_id = cryptr.decrypt(req.cookies.user_id);
+    //console.log(req.body);
+    await client.query("INSERT INTO public.course(course_full_name,couse,dept_id,level) VALUES ($1, $2, $3,$4) RETURNING *", [full_name_course, sort_name_course, Department, course_catalog]).then(results_job => {
+        client.query("SELECT * FROM public.course   ORDER BY id DESC").then(records_DC => {
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+            res.render("add-course", { type: req.cookies.type, error: 'Successfully Add Course', id: user_id, records_dc: records_DC.rows, color: 'green' });
+
+        });
+
+
+
+
+
+
+    }).catch(err => {
+        // console.log('email or username is not correct')
+        res.setHeader("Content-Security-Policy", "script-src 'none'");
+        client.query("SELECT * FROM public.course   ORDER BY id DESC").then(records_DC => {
+            const user_id = cryptr.decrypt(req.cookies.user_id);
+            res.render("add-course", { type: req.cookies.type, error: 'Course Does not Added. Please Try Again ', id: user_id, records_dc: records_DC.rows, color: 'red' });
+
+        });
+
+
+    });
 
 });
 

@@ -1,0 +1,113 @@
+<%- include('header') %>
+
+    <body>
+        <div class="studentDashborad bg-light">
+            <div class="container-fluid">
+                <div class="row">
+                    <%- include('admin_side_bar_dashboard') -%>
+
+                        <div class="col-md-10 table__dashboard p-0 ">
+                            <%- include('admin_search') -%>
+
+                                <div class="col-md-12 table__main px-3">
+                                    <h4 class="pt-3"><b>Add Course</b></h4>
+                                    <center style="color:<%- color -%>" id="error_display">
+                                        <%- error-%>
+                                    </center>
+                                    <form action="/add-course" class="Formcss" method="post" enctype="multipart/form-data">
+                                        <div class="col-md-12 form-group">
+                                            <label for="course" class="form-label">Select Department :</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="course"></i></span>
+                                                <select id="Department_course" class="form-select rounded-0" name="Department" required>
+                                                    <option></option>
+                     
+                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for="course" class="form-label">Enter Full Course Name:</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                                <input type="text" class="form-control rounded-0" placeholder="Short Name" aria-label="course" aria-describedby="basic-addon1" name="full_name_course" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for="course" class="form-label">Enter Short Course Name:</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                                <input type="text" class="form-control rounded-0" placeholder="Short Name" aria-label="course" aria-describedby="basic-addon1" name="sort_name_course" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for="course" class="form-label">Course Catalog:</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text rounded-0" id="basic-addon1"><i class="fa fa-cubes" aria-hidden="course"></i></span>
+                                                <!-- <input type="text" class="form-control rounded-0" placeholder="Course Catalog" aria-label="course" aria-describedby="basic-addon1" name="dept" required>-->
+                                                <select aria-label="Failed in" aria-describedby="basic-addon1" name="course_catalog" class="form-control rounded-0" required>
+                                                    <option value="">Please Select </option>
+                                                    <option value="UG">Undergraduate  </option>
+                                                    <option value="PG"> Postgraduate</option>
+                                                    
+                                                  </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="btn-group-login mt-3">
+                                            <center><i class="fa fa-plus input-group-text rounded-0" aria-hidden="true"><input type="submit" class="btn btn-magenta px-5 rounded-0" value="Add Course"></i></center>
+                                        </div>
+                                        <div class="btn-group-login mt-5"></div>
+                                    </form>
+                                </div>
+                                <div class="col-md-12 table__main px-3">
+                                    <table id="example" class="table table-striped mt-3 py-5" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Course Full Name</th>
+                                                <th>Course Short Name</th>
+                                                <th>Course Catalog</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <% records_dc.forEach(record_sdc=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= record_sdc.course_full_name %>
+
+                                                    </td>
+                                                    <td>
+                                                        <%= record_sdc.couse %>
+
+                                                    </td>
+                                                    <td>
+                                                        <%= record_sdc.level %>
+
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-danger rounded-0" href="/delete-course/<%= record_sdc.id %>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+
+
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <div class="btn-group-login mt-5"></div>
+                                </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <script src="include-file/js/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $(".hamButton").click(function() {
+                    $("#menu").toggle();
+                    $("#nav-item").slideDown("5000");
+                });
+            });
+        </script>
+    </body>
+
+    </html>
