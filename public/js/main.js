@@ -151,4 +151,10 @@ $(document).ready(function() {
 
         });
     });
+
+    //reply by student
+
+    $("#student_reply").on(function() {
+        alert("Handler for  called.");
+    });
 });

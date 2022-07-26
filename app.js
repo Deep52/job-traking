@@ -605,8 +605,13 @@ app.get('/job-view/:id', function(req, res, next) {
             res.setHeader("Content-Security-Policy", "script-src 'none'");
             //console.log(records);
             const user_id = cryptr.decrypt(req.cookies.user_id);
+            client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
+                //console.log(response.rows);
+                res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0], color: 'green', responses: response.rows });
+                // res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0] });
+            });
 
-            res.render("view-job", { type: req.cookies.type, id: user_id, records: records.rows[0] });
+
             //res.redirect("/Student-dashboard");
         });
     } else {
@@ -750,7 +755,49 @@ app.post("/course", async(req, res, next) => {
     });
 
 });
+// response by student
 
+
+app.post("/replybystudent", async(req, res, next) => {
+
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+    const date_r = year + "-" + month + "-" + date;
+
+
+
+    var time1 = date_ob.getHours() + ":" + date_ob.getMinutes() + ":" + date_ob.getSeconds();
+
+
+    const pool = new Pool(config);
+    const client = await pool.connect();
+    var { job_id, student_id, Reply_by_student } = req.body;
+    await client.query(`SELECT * FROM public.login  where id ='${student_id}'`).then(records_s => {
+        var student_name = records_s.rows[0].fname + records_s.rows[0].lname;
+        // console.log(student_name);
+        // console.log(time1);
+        var user_id = cryptr.decrypt(req.cookies.user_id);
+        //res.render("add-course", { type: req.cookies.type, error: 'Successfully Add Course', id: user_id, records_dc: records_DC.rows, color: 'green' });
+        var time = date_ob.getHours() + ":" + date_ob.getMinutes() + ":" + date_ob.getSeconds
+        client.query("INSERT INTO public.reply_response(reply_by_student,user_id, job_id, user_name,date,time_r) VALUES ($1, $2, $3,$4,$5,$6) RETURNING *", [Reply_by_student, student_id, job_id, student_name, date_r, time1]).then(results_job => {
+            client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records_s => {
+                client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, student_id]).then(response => {
+                    //console.log(response.rows);
+                    res.render("view-job", { type: req.cookies.type, error: 'Successfully Send Message  ', user_id: student_id, records: records_s.rows[0], color: 'green', responses: response.rows });
+                });
+            });
+        });
+
+    });
+
+
+});
 
 
 //course
