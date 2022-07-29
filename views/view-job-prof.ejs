@@ -16,7 +16,7 @@
                                     <center style="color:<%- color -%>" id="error_display">
                                         <%- error-%>
                                     </center>
-                                    <form action="/replybystudent" class="Formcss " method="post" enctype="text/html">
+                                    <form action="/replybyprofessor" class="Formcss " method="post" enctype="text/html">
                                         <table class="center table table-striped mt-6 py-9 dataTable no-footer">
                                             <tr>
                                                 <div class="col-md-12 form-group">
@@ -29,7 +29,7 @@
                                                 </div>
                                             </tr>
                                             <input type="hidden" value="<%= records.id %>" name="job_id" id="job_id">
-                                            <input type="hidden" value="<%= records.user_id %>" name="student_id" id="student_id">
+                                            <input type="hidden" value="<%= records.user_id %>" name="professor_id" id="professor_id">
                                             <tr>
                                                 <div class="col-md-12 form-group">
                                                     <td>
@@ -150,10 +150,10 @@
                                             <tr>
                                                 <div class="col-md-12 form-group">
                                                     <td>
-                                                        <label for="course" class="form-label">Reply :</label>
+                                                        <label for="course" class="form-label">Professor Reply :</label>
                                                     </td>
                                                     <td>
-                                                        <label for="course" class="form-label"><textarea rows="5" cols="40" id="Reply_by_student" name="Reply_by_student"></textarea></label>
+                                                        <label for="course" class="form-label"><textarea rows="5" cols="40" id="reply_by_professor" name="reply_by_professor"></textarea></label>
                                                     </td>
 
                                                 </div>

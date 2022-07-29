@@ -1,12 +1,21 @@
 <div class="col-md-12 mobile-view-custom d-flex justify-content-between bg-white p-3 shadow-sm align-items-center">
     <p class="btn btn-magenta rounded-0 d-none d-md-block"><b>PROFESSOR DASHBOARD</b></p>
-    <form class="d-flex " action="/Student-search" method="post">
-        <input class="form-control me-1 rounded-0 w-100" type="search" name="search" placeholder="Search" aria-label="Search">
-        <select class="form-select me-2 w-50 rounded-0" aria-label="Default select example">
-<option value="1" selected>One</option>
-<option value="2">Two</option>
-<option value="3">Three</option>
+    <form class="d-flex " action="/advance-search" method="post">
+        <input class="form-control me-1 rounded-0 w-100" type="search" name="advance_search" placeholder="Search" aria-label="Search">
+        <select class="form-select me-2 w-50 rounded-0" aria-label="Default select example" name="Weekly">
+            <option value="Weekly" selected>Weekly</option>
+        <option value="1" >Last Week </option>
+        <option value="2">Last Two Weeks </option>
+        <option value="3">Last Three Weeks</option>
+        </select>
+        <select class="form-select me-2 w-50 rounded-0" aria-label="Default select example" name="Monthly">
+            <option value="Monthly" selected>Monthly</option>
+<option value="3" >Last Three Months</option>
+<option value="6">Last Six Months</option>
+<option value="9">Last Nine months</option>
+<option value="12">Last One Year</option>
 </select>
+
         <button class="btn btn-magenta rounded-0" type="submit">Search</button>
     </form>
 </div>

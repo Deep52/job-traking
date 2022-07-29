@@ -91,51 +91,52 @@
                                             </tr>
 
                                             <tr>
-                                                <div class="col-md-12 form-group">
-                                                    <td>
-                                                        <label for="course" class="form-label">Feedback:</label>
-                                                    </td>
-                                                    <td> <label for="course" class="form-label"></label>
-                                                        <div class="page-content page-container" id="page-content">
-                                                            <div class="padding">
-                                                                <div class="row container d-flex justify-content-center">
-                                                                    <div class="col-md-6" style="width: 100%;">
-                                                                        <div class="card card-bordered">
-                                                                            <div class="card-header">
-                                                                                <h4 class="card-title"><strong><%= records.response_feedback %></strong></h4>
-                                                                                <a class="btn btn-xs btn-secondary" data-abc="true">Let's Chat App</a>
-                                                                            </div>
-                                                                            <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important; width: 600px">
-                                                                                <div class="media media-chat">
-
-                                                                                    <div class="media-body">
-
-                                                                                        <% responses.forEach(response=> { %>
-                                                                                            <p>
-
-                                                                                                <%= response.reply_by_student %>
-                                                                                            </p>
-                                                                                            <p class="media-chat-reverse">
-
-
-                                                                                                <%= response.reply_by_professor %>
-                                                                                            </p>
-
-
-                                                                                            <div class="media media-meta-day" style="font-size: 10px;">
-                                                                                                <%= response.date %>
-                                                                                            </div>
-                                                                                            <% }); %>
-                                                                                    </div>
+                                                <% if(records.response=='Y') {%>
+                                                    <div class="col-md-12 form-group">
+                                                        <td>
+                                                            <label for="course" class="form-label">Feedback:</label>
+                                                        </td>
+                                                        <td> <label for="course" class="form-label"></label>
+                                                            <div class="page-content page-container" id="page-content">
+                                                                <div class="padding">
+                                                                    <div class="row container d-flex justify-content-center">
+                                                                        <div class="col-md-6" style="width: 100%;">
+                                                                            <div class="card card-bordered">
+                                                                                <div class="card-header">
+                                                                                    <h4 class="card-title"><strong><%= records.response_feedback %></strong></h4>
+                                                                                    <a class="btn btn-xs btn-secondary" data-abc="true">Let's Chat App</a>
                                                                                 </div>
+                                                                                <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important; width: 600px">
+                                                                                    <div class="media media-chat">
+
+                                                                                        <div class="media-body">
+
+                                                                                            <% responses.forEach(response=> { %>
+                                                                                                <p>
+
+                                                                                                    <%= response.reply_by_student %>
+                                                                                                </p>
+                                                                                                <p class="media-chat-reverse">
+
+
+                                                                                                    <%= response.reply_by_professor %>
+                                                                                                </p>
+
+
+                                                                                                <div class="media media-meta-day" style="font-size: 10px;">
+                                                                                                    <%= response.date %>
+                                                                                                </div>
+                                                                                                <% }); %>
+                                                                                        </div>
+                                                                                    </div>
 
 
 
 
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
 
 
 
@@ -143,9 +144,9 @@
 
 
 
-                                                                </label>
-                                                    </td>
-                                                    </div>
+                                                                    </label>
+                                                        </td>
+                                                        </div>
                                             </tr>
                                             <tr>
                                                 <div class="col-md-12 form-group">
@@ -158,6 +159,7 @@
 
                                                 </div>
                                             </tr>
+
                                             <tr>
                                                 <div class="col-md-12 form-group"></div>
                                                 <td></td>
@@ -168,15 +170,16 @@
                                                 </div>
 
                                             </tr>
-                                            <tr>
+                                            <% } %>
+                                                <tr>
 
-                                                <div class="btn-group-login mt-3">
+                                                    <div class="btn-group-login mt-3">
 
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <div class="btn-group-login mt-5"></div>
-                                            </tr>
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="btn-group-login mt-5"></div>
+                                                </tr>
                                     </form>
                                     </div>
                                 </div>

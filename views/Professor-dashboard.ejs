@@ -28,9 +28,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+
                                             <% records.forEach(record=> { %>
                                                 <tr>
                                                     <td>
+
                                                         <%= record.fname %>
                                                             <%= record.lname %>
                                                     </td>
@@ -92,7 +94,7 @@
                                                         <%= record.create_date %>
                                                     </td>
                                                     <td>
-                                                        <div class="btn-group"><a class="btn btn-magenta rounded-0" href="/job-view/<%= record.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <div class="btn-group"><a class="btn btn-magenta rounded-0" href="/job-view-prof/<%= record.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                                                         </div>
                                                     </td>
