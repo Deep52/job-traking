@@ -190,13 +190,14 @@ function hash(input) {
 
 app.post("/advance-search", async(req, res, next) => {
     const { advance_search, Weekly, Monthly } = req.body;
+    var user_id = cryptr.decrypt(req.cookies.user_id);
     if (Weekly == 'Weekly' && Monthly == 'Monthly') {
         client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' and   lower(login.fname) like $1 or public.login.typebyadmin='S' and   lower(login.course) like $1 or  public.login.typebyadmin='S' and   lower(login.lname) like $1 or public.login.typebyadmin='S' and   lower(login.email) like $1 or public.login.typebyadmin='S' and   lower(addjob.company_name) like $1 or public.login.typebyadmin='S' and   lower(addjob.job_tittle) like $1", [advance_search]).then(records => {
             // console.log(records);
             //for (let i = 0; i < records.rowCount; i++) {
             //  client.query(`SELECT * FROM public.reply_response where  job_id='${records.rows[i].id}' and count1='1'`).then(count1 => {
             //    console.log(records.rows.push(count1.rows));
-            const user_id = cryptr.decrypt(req.cookies.user_id);
+
             //});
             link = __dirname + '/public/upload/';
             res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link });
@@ -204,15 +205,44 @@ app.post("/advance-search", async(req, res, next) => {
     }
     if (Weekly != 'Weekly') {
         // console.log(Weekly);
-        if (Weekly == '1') {
 
-            const now = new Date();
 
-            var oneweek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            tt = oneweek.split(T)
-            console.log(tt[0]);
+        var now = new Date();
+        var oh = 7 * Weekly;
+        var oneweek = new Date(now.getTime() - oh * 24 * 60 * 60 * 1000);
+        var tt = oneweek.toISOString();
+        var week1 = tt.split('T');
+        //console.log(week1[0]);
+        client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [week1[0]]).then(weeklyy => {
 
-        }
+            // console.log(weeklyy);
+            link = __dirname + '/public/upload/';
+            res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: weeklyy.rows, link: link });
+
+        });
+
+
+
+    }
+    if (Monthly != 'Monthly') {
+
+
+        var now = new Date();
+        var mo = 30 * Monthly;
+        var month1 = new Date(now.getTime() - mo * 24 * 60 * 60 * 1000);
+        var mm = month1.toISOString();
+        var mmm = mm.split('T');
+        client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
+
+            //console.log(mo);
+            link = __dirname + '/public/upload/';
+            res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: months.rows, link: link });
+
+        });
+
+
+
+
     }
 });
 
