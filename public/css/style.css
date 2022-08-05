@@ -706,4 +706,156 @@ textarea {
 }
 
 
+/* notification */
+
+#exampleModalToggle .modal-dialog {
+    max-width: 381px;
+    margin: 2.75rem;
+    margin-left: 1.75rem;
+    margin-right: 20px;
+    margin-left: auto;
+    align-items: unset;
+}
+
+.modal-backdrop.show {
+    background-color: unset;
+    border: none;
+}
+
+.modal-content {
+    border: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.28);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.28);
+}
+
+.notify .notify_img img {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+
+.notify {
+    column-gap: 14px;
+}
+
+.notify .timing {
+    font-size: 10px;
+    color: tan;
+}
+
+
+/* End css */
+
+@media screen and (max-width: 1000px) and (min-width: 780px) {
+    .content-section-slide {
+        top: 4%;
+    }
+    .about-us .number-boxes i {
+        font-size: 34px;
+    }
+    .footer .footer-menu {
+        width: 200px;
+    }
+    .footer .footer-menu.last {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .sideBar .main-sideBar {
+        min-height: 100vh;
+    }
+    .login__dashboard {
+        min-height: 100vh;
+    }
+    .register__dashboard {
+        min-height: 120vh;
+    }
+    .bg-image.register {
+        min-height: 120vh;
+    }
+    .overlay_color.register {
+        min-height: 120vh;
+    }
+    .side-bar-logo button {
+        display: none;
+    }
+    .content-section-slide h2 {
+        text-align: left;
+        font-size: 40px;
+        font-weight: 700;
+    }
+    .content-section-slide p {
+        text-align: left;
+    }
+    .content-section-slide {
+        top: 20%;
+        padding: 40px;
+        bottom: unset;
+    }
+    .content-section-slide a {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bg-image {
+        min-height: 70vh;
+    }
+    .overlay_color {
+        min-height: 70vh;
+    }
+    .bg-image.register {
+        min-height: 100vh;
+    }
+    .overlay_color.register {
+        min-height: 100vh;
+    }
+    .sideBar #menu {
+        display: none;
+    }
+    .side-bar-logo {
+        display: flex;
+        align-items: center;
+        column-gap: 70px;
+    }
+    .side-bar-logo button {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+    }
+    .btn-sidebar-nav {
+        font-size: 13px;
+        display: flex;
+        justify-content: center;
+        width: 133px;
+    }
+    .mobile-view-custom {
+        column-gap: 10px;
+    }
+    .custom-logo {
+        max-width: 160px;
+    }
+    .carousel-dark.slide img {
+        min-height: 300px;
+    }
+    #exampleModalToggle .modal-dialog {
+        max-width: 381px;
+        margin: 7.75rem;
+        margin-right: auto;
+        margin-left: auto;
+        align-items: unset;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .custom-logo {
+        max-width: 150px;
+    }
+}
+
+
 /* End css */

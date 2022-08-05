@@ -6,103 +6,104 @@
                 <div class="row">
                     <%- include('professor_side_bar_dashboard') -%>
                         <div class="col-md-10 table__dashboard p-0 ">
-                            <%- include('professor-search') -%>
-                                <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
-                                    <h4 class="pt-0"><b></b></h4>
-                                    <table id="example" class="table table-striped mt-0 py-0" style="width:100%;font-size: 14px;">
-                                        <thead>
-                                            <tr>
-                                                <th>Student Name</th>
-                                                <th>UEA Email</th>
-
-                                                <th>Course</th>
-
-                                                <th>Company Name</th>
-                                                <th>Job Tittle</th>
-                                                <th>Qualified </th>
-                                                <th>Failed In</th>
-                                                <th>Resume</th>
-                                                <th>Response</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <% records.forEach(record=> { %>
+                            <%- include('Notification-professor') -%>
+                                <%- include('professor-search') -%>
+                                    <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
+                                        <h4 class="pt-0"><b></b></h4>
+                                        <table id="example" class="table table-striped mt-0 py-0" style="width:100%;font-size: 14px;">
+                                            <thead>
                                                 <tr>
-                                                    <td>
+                                                    <th>Student Name</th>
+                                                    <th>UEA Email</th>
 
-                                                        <%= record.fname %>
-                                                            <%= record.lname %>
-                                                    </td>
-                                                    <td style="font-size: 12px"><b>
+                                                    <th>Course</th>
+
+                                                    <th>Company Name</th>
+                                                    <th>Job Tittle</th>
+                                                    <th>Qualified </th>
+                                                    <th>Failed In</th>
+                                                    <th>Resume</th>
+                                                    <th>Response</th>
+                                                    <th>Date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <% records.forEach(record=> { %>
+                                                    <tr>
+                                                        <td>
+
+                                                            <%= record.fname %>
+                                                                <%= record.lname %>
+                                                        </td>
+                                                        <td style="font-size: 12px"><b>
                                                         <%= record.email %></b>
-                                                    </td>
+                                                        </td>
 
-                                                    <td>
-                                                        <%= record.course %>
-                                                    </td>
-                                                    <td>
-                                                        <%= record.company_name %>
-                                                    </td>
-                                                    <td>
-                                                        <%= record.job_tittle %>
-                                                    </td>
-                                                    <td>
-                                                        <%= record.qualified %>
-                                                    </td>
-                                                    <td>
-                                                        <%= record.failed_in %>
-                                                    </td>
-                                                    <td>
-                                                        <a href="/popup/<%= record.resume_name %>" class="underline">
-                                                            <i class="bi bi-file-earmark-arrow-down-fill">
+                                                        <td>
+                                                            <%= record.course %>
+                                                        </td>
+                                                        <td>
+                                                            <%= record.company_name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= record.job_tittle %>
+                                                        </td>
+                                                        <td>
+                                                            <%= record.qualified %>
+                                                        </td>
+                                                        <td>
+                                                            <%= record.failed_in %>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/popup/<%= record.resume_name %>" class="underline">
+                                                                <i class="bi bi-file-earmark-arrow-down-fill">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
                                                                     <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z"/>
                                                                   </svg>
                                                             <%= record.resume_name %>
 
                                                         </i>
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <% if(record.response=='Y'){ %>
-                                                            <center>
-                                                                <a href="/job-view/<%= record.id %>">
-                                                                    <i class="bi bi-envelope-paper-fill ">
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <% if(record.response=='Y'){ %>
+                                                                <center>
+                                                                    <a href="/job-view/<%= record.id %>">
+                                                                        <i class="bi bi-envelope-paper-fill ">
                                                                     
                                                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-envelope-paper-fill" viewBox="0 0 16 16" style="color: #D6177D;">
                                                                         <path fill-rule="evenodd" d="M6.5 9.5 3 7.5v-6A1.5 1.5 0 0 1 4.5 0h7A1.5 1.5 0 0 1 13 1.5v6l-3.5 2L8 8.75l-1.5.75ZM1.059 3.635 2 3.133v3.753L0 5.713V5.4a2 2 0 0 1 1.059-1.765ZM16 5.713l-2 1.173V3.133l.941.502A2 2 0 0 1 16 5.4v.313Zm0 1.16-5.693 3.337L16 13.372v-6.5Zm-8 3.199 7.941 4.412A2 2 0 0 1 14 16H2a2 2 0 0 1-1.941-1.516L8 10.072Zm-8 3.3 5.693-3.162L0 6.873v6.5Z"/>
                                                                       </svg>
 
                                                         </i>
-                                                            </center>
-                                                            </a>
-                                                            <% } else{%>
-                                                                <center>
-                                                                    <i class="bi bi-envelope-x">
+                                                                </center>
+                                                                </a>
+                                                                <% } else{%>
+                                                                    <center>
+                                                                        <i class="bi bi-envelope-x">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-x" viewBox="0 0 16 16">
                                                                             <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
                                                                             <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0Z"/>
                                                                           </svg>
                                                                       </i>
-                                                                </center>
-                                                                <% } %>
-                                                    </td>
-                                                    <td>
-                                                        <%= record.create_date %>
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-group"><a class="btn btn-magenta rounded-0" href="/job-view-prof/<%= record.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                    </center>
+                                                                    <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <%= record.create_date %>
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group"><a class="btn btn-magenta rounded-0" href="/job-view-prof/<%= record.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
                         </div>
                 </div>
             </div>

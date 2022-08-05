@@ -1,0 +1,46 @@
+<div class="col-md-12 notify_icon d-flex justify-content-end p-0">
+    <div class="modal" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel" style="color: #D6177D;">NEW MESSAGE</h5>
+                    <!-----<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled">
+                        <% Notification.forEach(Notifications=> { %>
+                            <a href="/chart_status_update_student/<%= Notifications.job_id %>" class="rounded-circle" <% if( Notifications.count1=='1' ){ %> style="text-decoration: none;    color: black;    font-size: smaller;"> <% } else{%>
+                                style="text-decoration: none;    color: black;    font-size: smaller;"> <% }%>
+                                <li>
+                                    <div class="notify d-flex">
+                                        <div class="notify_img">
+                                            <!--  <img src="include-file/images/profile-1.jpg" width="100%">-->
+
+                                        </div>
+                                        <div class="notify_content">
+                                            <h6>
+                                                <%= Notifications.prof_name %>
+                                            </h6>
+                                            <p class="mb-0">
+                                                <%= Notifications.reply_by_professor %>
+                                            </p>
+                                            <p class="timing ">
+                                                <%= Notifications.date %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </a>
+                            <% }); %>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <i class="rounded-3 d-none d-md-block" style="padding: .5% 1% 0% 0%; color: #D6177D;">
+        <%= count_not %>
+    </i>
+    <a class="btn btn-magenta rounded-circle" data-bs-toggle="modal" href="#exampleModalToggle" role="button"><i class="fa fa-bell" aria-hidden="true"></i></a>
+</div>

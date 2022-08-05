@@ -70,7 +70,7 @@ const client = new Pool(config);
 error = '';
 color = '';
 records = '';
-
+Notification = '';
 // session
 app.use(session({
     secret: 'keyboard cat',
@@ -128,7 +128,9 @@ app.get("/Student-dashboard", function(req, res) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
         client.query(`SELECT  *	FROM public.addjob where user_id='${user_id}' ORDER BY id DESC`).then(records => {
             // console.log(records);
-            res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link });
+            client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
+                res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+            });
         });
         //  res.render("Student-dashboard", { type: req.cookies.type, id: user_id });
     } else {
@@ -143,8 +145,10 @@ app.get("/Professor-dashboard", function(req, res) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
         client.query(`SELECT * FROM public.login INNER JOIN public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
             // console.log(records);
-            link = __dirname + '/public/upload/';
-            res.render("Professor-dashboard", { type: req.body.type, id: user_id, records: records.rows, link: link });
+            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                link = __dirname + '/public/upload/';
+                res.render("Professor-dashboard", { type: req.body.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+            });
         });
         //link = __dirname + '/public/upload/';
         // res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, link: link });
@@ -180,6 +184,8 @@ app.get("/add-job", function(req, res) {
     }
 
 });
+
+
 // create hashing function
 function hash(input) {
     return createHash('sha256').update(input).digest('hex');
@@ -199,8 +205,10 @@ app.post("/advance-search", async(req, res, next) => {
             //    console.log(records.rows.push(count1.rows));
 
             //});
-            link = __dirname + '/public/upload/';
-            res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link });
+            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                link = __dirname + '/public/upload/';
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+            });
         });
     }
     if (Weekly != 'Weekly') {
@@ -214,11 +222,11 @@ app.post("/advance-search", async(req, res, next) => {
         var week1 = tt.split('T');
         //console.log(week1[0]);
         client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [week1[0]]).then(weeklyy => {
-
-            // console.log(weeklyy);
-            link = __dirname + '/public/upload/';
-            res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: weeklyy.rows, link: link });
-
+            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                // console.log(weeklyy);
+                link = __dirname + '/public/upload/';
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: weeklyy.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+            });
         });
 
 
@@ -233,11 +241,11 @@ app.post("/advance-search", async(req, res, next) => {
         var mm = month1.toISOString();
         var mmm = mm.split('T');
         client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
-
-            //console.log(mo);
-            link = __dirname + '/public/upload/';
-            res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: months.rows, link: link });
-
+            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                //console.log(mo);
+                link = __dirname + '/public/upload/';
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+            });
         });
 
 
@@ -373,8 +381,12 @@ app.post("/login", async(req, res, next) => {
                 let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
                 client.query(`SELECT  *	FROM public.addjob where user_id='${results_login.rows[0].id}' ORDER BY id DESC`).then(records => {
                     // console.log(records);
-                    link = __dirname + '/public/upload/';
-                    res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link });
+                    client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
+                        //console.log(records.rows.push(count1.rowCount));
+
+                        link = __dirname + '/public/upload/';
+                        res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                    });
                 });
                 // res.render("Student-dashboard", { type: req.body.type, id: results_login.rows[0].id });
             }
@@ -392,15 +404,15 @@ app.post("/login", async(req, res, next) => {
                 client.query(`SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
                     // console.log(records);
                     //for (let i = 0; i < records.rowCount; i++) {
-                    //  client.query(`SELECT * FROM public.reply_response where  job_id='${records.rows[i].id}' and count1='1'`).then(count1 => {
-                    //    console.log(records.rows.push(count1.rows));
+                    client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                        //console.log(records.rows.push(count1.rowCount));
 
-                    //});
-                    link = __dirname + '/public/upload/';
-                    res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link });
-                    //}
+                        link = __dirname + '/public/upload/';
+                        res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                        //}
 
 
+                    });
 
 
 
@@ -581,6 +593,7 @@ app.get('/delete-dept/:id', function(req, res, next) {
 
 
 });
+
 // delete function of course
 
 app.get('/delete-course/:id', function(req, res, next) {
@@ -694,11 +707,80 @@ app.get('/job-view/:id', function(req, res, next) {
 
 
 });
+// update color notification
+app.get("/chart_status_update/:id", function(req, res) {
+    var job_id = req.params.id;
+    if (req.cookies.session_id) {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        client.query("UPDATE public.reply_response set count1='0'	WHERE job_id=$1", [job_id]).then(result => {
+            client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
+                res.setHeader("Content-Security-Policy", "script-src 'none'");
+                //console.log(records);
+                const user_id = cryptr.decrypt(req.cookies.user_id);
+                client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
+                    //console.log(response.rows);
+                    res.render("view-job-prof", { type: req.cookies.type, user_id: user_id, records: records.rows[0], color: 'green', responses: response.rows });
+                    // res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0] });
+                });
+
+
+                //res.redirect("/Student-dashboard");
+            });
+        });
+        // window.location.href = `http://localhost:5000/job-view-prof/${response_id}`;
+        //  res.redirect("job-view-prof/" + response_id);
+        // res.render("/job-view-prof/" + response_id, { type: req.cookies.type, id: user_id, job_id1: response_id });
+    } else {
+
+        res.redirect("/");
+    }
+
+});
+
+
+
+app.get("/chart_status_update_student/:id", function(req, res) {
+    var job_id = req.params.id;
+    if (req.cookies.session_id) {
+        const user_id = cryptr.decrypt(req.cookies.user_id);
+        client.query("UPDATE public.reply_response set count2='0'	WHERE job_id=$1", [job_id]).then(result => {
+            client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
+                res.setHeader("Content-Security-Policy", "script-src 'none'");
+                //console.log(records);
+                const user_id = cryptr.decrypt(req.cookies.user_id);
+                client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
+                    //console.log(response.rows);
+                    res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0], color: 'green', responses: response.rows });
+                    // res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0] });
+                });
+
+
+                //res.redirect("/Student-dashboard");
+            });
+        });
+        // window.location.href = `http://localhost:5000/job-view-prof/${response_id}`;
+        //  res.redirect("job-view-prof/" + response_id);
+        // res.render("/job-view-prof/" + response_id, { type: req.cookies.type, id: user_id, job_id1: response_id });
+    } else {
+
+        res.redirect("/");
+    }
+
+});
+
+
+
 
 
 
 app.get('/job-view-prof/:id', function(req, res, next) {
-    const job_id = req.params.id;
+
+    var job_id = req.params.id;
+
+
+
+
+
     if (req.cookies.session_id) {
         const client = new Pool(config);
         sess = req.session;
@@ -726,6 +808,7 @@ app.get('/job-view-prof/:id', function(req, res, next) {
 });
 
 
+
 // student search function
 
 
@@ -736,9 +819,11 @@ app.post("/Student-search", async(req, res, next) => {
         res.setHeader("Content-Security-Policy", "script-src 'none'");
         //console.log(records);
         const user_id = cryptr.decrypt(req.cookies.user_id);
+        client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
 
-        res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows });
-        //res.redirect("/Student-dashboard");
+            res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, Notification: count1.rows, count_not: count1.rowCount });
+            //res.redirect("/Student-dashboard");
+        });
     });
 
 
@@ -881,7 +966,7 @@ app.post("/replybystudent", async(req, res, next) => {
     const client = await pool.connect();
     var { job_id, student_id, Reply_by_student } = req.body;
     await client.query(`SELECT * FROM public.login  where id ='${student_id}'`).then(records_s => {
-        var student_name = records_s.rows[0].fname + records_s.rows[0].lname;
+        var student_name = records_s.rows[0].fname + '-' + records_s.rows[0].lname;
         // console.log(student_name);
         // console.log(time1);
         var user_id = cryptr.decrypt(req.cookies.user_id);
@@ -918,12 +1003,13 @@ app.post("/replybyprofessor", async(req, res, next) => {
 
 
     var time1 = date_ob.getHours() + ":" + date_ob.getMinutes() + ":" + date_ob.getSeconds();
+
     await client.query(`SELECT * FROM public.login  where id ='${professor_id}'`).then(records_s => {
-        var student_name = records_s.rows[0].fname + records_s.rows[0].lname;
+        var professor_name = records_s.rows[0].fname + '-' + records_s.rows[0].lname;
 
         client.query("SELECT * FROM public.addjob WHERE id=$1 and user_id=$2", [job_id, professor_id]).then(response1 => {
             if (response1.rows[0].response == 'N') {
-                client.query(`UPDATE public.addjob	SET  response_feedback='${reply_by_professor}', response='Y'	WHERE id='${job_id}' and user_id='${professor_id}'`).then(records => {
+                client.query(`UPDATE public.addjob	SET  response_feedback='${reply_by_professor}', response='Y', prof_name='${professor_name}'	WHERE id='${job_id}' and user_id='${professor_id}'`).then(records => {
 
                     client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records_s => {
                         client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, professor_id]).then(response => {
@@ -935,7 +1021,7 @@ app.post("/replybyprofessor", async(req, res, next) => {
                 });
 
             } else {
-                client.query("INSERT INTO public.reply_response(reply_by_professor,user_id, job_id, user_name,date,time_r,count2) VALUES ($1, $2, $3,$4,$5,$6,$7) RETURNING *", [reply_by_professor, professor_id, job_id, student_name, date_r, time1, '1']).then(results_job => {
+                client.query("INSERT INTO public.reply_response(reply_by_professor,user_id, job_id, prof_name,date,time_r,count2) VALUES ($1, $2, $3,$4,$5,$6,$7) RETURNING *", [reply_by_professor, professor_id, job_id, professor_name, date_r, time1, '1']).then(results_job => {
                     client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records_s => {
                         client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, professor_id]).then(response => {
                             //console.log(response.rows);
@@ -948,6 +1034,7 @@ app.post("/replybyprofessor", async(req, res, next) => {
         });
 
     });
+
 
 
 });
