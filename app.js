@@ -280,7 +280,7 @@ app.post("/register", async(req, res, next) => {
 
 
 
-        if (req.body.type == 'Student') {
+        if (req.body.type === 'Student') {
             var type_access = '3';
 
 
@@ -301,9 +301,9 @@ app.post("/register", async(req, res, next) => {
 
             });
         }
-        if (req.body.type == 'Professor') {
+        if (req.body.type === 'Professor') {
             var type_access = '2';
-
+            //console.log(req.body);
 
             await client.query("SELECT * FROM public.login where email=$1 and type=$2", [email, type]).then(results => {
                 if (results.rowCount >= 1) {
@@ -312,7 +312,7 @@ app.post("/register", async(req, res, next) => {
 
                 } else {
 
-                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department,admintype) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,£11) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department, 'GA']).then(results_insert => {
+                    client.query("INSERT INTO public.login (fname, lname, email,password, salt,access,type, start_date, typebyadmin,department, admintype) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) RETURNING *", [firstName, lastName, email, hashedPassword, salt, type_access, type, start_date, 'N', Department, 'GA']).then(results_insert => {
                         //console.log(results_insert);
                         res.render("register", { type: 'Professor', error: 'Successfully Register. Please <a class="text-uppercase anchor-magenta" href="/login_Professor" name="signupBtn">Login</a> ', color: 'green' });
                     });
@@ -324,7 +324,7 @@ app.post("/register", async(req, res, next) => {
 
 
         }
-        if (req.body.type == 'Admin') {
+        if (req.body.type === 'Admin') {
             var type_access = '1';
             await client.query("SELECT * FROM public.login where email=$1 and type=$2", [email, type]).then(results => {
                 if (results.rowCount >= 1) {
@@ -1040,7 +1040,22 @@ app.post("/replybyprofessor", async(req, res, next) => {
 });
 //course
 
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            res.clearCookie("session_id");
+            res.clearCookie("user_id");
+            res.clearCookie("type");
 
+            auth = '<a href="/login">Login</a>';
+            // res.render('index', { login_auth: auth });
+            res.setHeader("Content-Security-Policy", "script-src 'none'");
+            res.redirect('/');
+        }
+    });
+});
 
 
 app.listen(PORT, () => {
