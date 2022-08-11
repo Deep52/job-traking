@@ -71,6 +71,8 @@ error = '';
 color = '';
 records = '';
 Notification = '';
+report = '';
+
 // session
 app.use(session({
     secret: 'keyboard cat',
@@ -147,7 +149,7 @@ app.get("/Professor-dashboard", function(req, res) {
             // console.log(records);
             client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
                 link = __dirname + '/public/upload/';
-                res.render("Professor-dashboard", { type: req.body.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                res.render("Professor-dashboard", { type: req.body.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
             });
         });
         //link = __dirname + '/public/upload/';
@@ -190,14 +192,35 @@ app.get("/add-job", function(req, res) {
 function hash(input) {
     return createHash('sha256').update(input).digest('hex');
 }
+app.get("/print_report/:id", function(req, res) {
+    const user_id = cryptr.decrypt(req.cookies.user_id);
+    const m = req.params.id;
+    //console.log(m);
+    var now = new Date();
+    var mo = 30 * m;
+    var month1 = new Date(now.getTime() - mo * 24 * 60 * 60 * 1000);
+    var mm = month1.toISOString();
+    var mmm = mm.split('T');
+    var mmmm = mmm[0].split('-')
+    console.log(mmm);
+    client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
+        client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+            //console.log(mo);
+            link = __dirname + '/public/upload/';
+            res.render("graph", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
+        });
+    });
 
+
+});
 
 
 
 app.post("/advance-search", async(req, res, next) => {
-    const { advance_search, Weekly, Monthly } = req.body;
+    const { advance_search, Weekly, Monthly, Qualified } = req.body;
+
     var user_id = cryptr.decrypt(req.cookies.user_id);
-    if (Weekly == 'Weekly' && Monthly == 'Monthly') {
+    if (Weekly == 'Weekly' && Monthly == 'Monthly' && Qualified == 'Qualified') {
         client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' and   lower(login.fname) like $1 or public.login.typebyadmin='S' and   lower(login.course) like $1 or  public.login.typebyadmin='S' and   lower(login.lname) like $1 or public.login.typebyadmin='S' and   lower(login.email) like $1 or public.login.typebyadmin='S' and   lower(addjob.company_name) like $1 or public.login.typebyadmin='S' and   lower(addjob.job_tittle) like $1", [advance_search]).then(records => {
             // console.log(records);
             //for (let i = 0; i < records.rowCount; i++) {
@@ -207,13 +230,26 @@ app.post("/advance-search", async(req, res, next) => {
             //});
             client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
                 link = __dirname + '/public/upload/';
-                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                let report = advance_search;
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
             });
         });
     }
+    if (Qualified != 'Qualified') {
+        // console.log(Qualified);
+        let report = Qualified;
+        client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.qualified = $1", [Qualified]).then(Qualif => {
+            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                //console.log(mo);
+                link = __dirname + '/public/upload/';
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: Qualif.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
+            });
+        });
+
+    }
     if (Weekly != 'Weekly') {
         // console.log(Weekly);
-
+        let report = Weekly + '-w';
 
         var now = new Date();
         var oh = 7 * Weekly;
@@ -225,15 +261,16 @@ app.post("/advance-search", async(req, res, next) => {
             client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
                 // console.log(weeklyy);
                 link = __dirname + '/public/upload/';
-                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: weeklyy.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: weeklyy.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
             });
         });
 
 
 
     }
-    if (Monthly != 'Monthly') {
 
+    if (Monthly != 'Monthly') {
+        let report = Monthly;
 
         var now = new Date();
         var mo = 30 * Monthly;
@@ -244,7 +281,7 @@ app.post("/advance-search", async(req, res, next) => {
             client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
                 //console.log(mo);
                 link = __dirname + '/public/upload/';
-                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
             });
         });
 
@@ -252,6 +289,7 @@ app.post("/advance-search", async(req, res, next) => {
 
 
     }
+
 });
 
 // register user function
@@ -376,9 +414,9 @@ app.post("/login", async(req, res, next) => {
                 sess.type = req.body.type;
                 encryptedString = cryptr.encrypt(results_login.rows[0].id);
 
-                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
-                let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
-                let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
+                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 3000000, secure: true, httpOnly: true });
+                let write_id = res.cookie('user_id', encryptedString, { maxAge: 3000000, secure: true, httpOnly: true });
+                let type = res.cookie('type', req.body.type, { maxAge: 3000000, secure: true, httpOnly: true });
                 client.query(`SELECT  *	FROM public.addjob where user_id='${results_login.rows[0].id}' ORDER BY id DESC`).then(records => {
                     // console.log(records);
                     client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
@@ -397,9 +435,9 @@ app.post("/login", async(req, res, next) => {
                 encryptedString = cryptr.encrypt(results_login.rows[0].id);
                 var user_id = results_login.rows[0].id;
                 link = __dirname + '/public/upload/';
-                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
-                let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
-                let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
+                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 3000000, secure: true, httpOnly: true });
+                let write_id = res.cookie('user_id', encryptedString, { maxAge: 3000000, secure: true, httpOnly: true });
+                let type = res.cookie('type', req.body.type, { maxAge: 3000000, secure: true, httpOnly: true });
                 // client.query(`SELECT * FROM public.login INNER JOIN public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
                 client.query(`SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
                     // console.log(records);
@@ -408,7 +446,7 @@ app.post("/login", async(req, res, next) => {
                         //console.log(records.rows.push(count1.rowCount));
 
                         link = __dirname + '/public/upload/';
-                        res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
+                        res.render("Professor-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
                         //}
 
 
@@ -424,9 +462,9 @@ app.post("/login", async(req, res, next) => {
                 sess.id = req.session.id;
                 encryptedString = cryptr.encrypt(results_login.rows[0].id);
                 link = __dirname + '/public/upload/';
-                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 900000, secure: true, httpOnly: true });
-                let write_id = res.cookie('user_id', encryptedString, { maxAge: 900000, secure: true, httpOnly: true });
-                let type = res.cookie('type', req.body.type, { maxAge: 900000, secure: true, httpOnly: true });
+                let session_id1 = res.cookie('session_id', sess.id, { maxAge: 3000000, secure: true, httpOnly: true });
+                let write_id = res.cookie('user_id', encryptedString, { maxAge: 3000000, secure: true, httpOnly: true });
+                let type = res.cookie('type', req.body.type, { maxAge: 3000000, secure: true, httpOnly: true });
                 client.query("SELECT * FROM public.login  where id !='23' ORDER BY start_date DESC").then(records => {
                     // console.log(record);
                     res.render("Admin-dashboard", { type: req.body.type, id: results_login.rows[0].id, records: records.rows, link: link });

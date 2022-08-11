@@ -103,6 +103,16 @@
                                                     <% }); %>
                                             </tbody>
                                         </table>
+
+                                        <p class="col-md-12 mobile-view-custom d-flex justify-content-between bg-white p-3 shadow-sm align-items-center">
+                                            <% if (print==''){ %>
+                                                <% } %>
+                                                    <% if (print !='1-w' && print !='2-w' && print !='3-w' && print !=''){ %>
+                                                        <a class="btn btn-magenta rounded-0 me-1 d-none d-md-block" href="/print_report/<%= print %>">Report</a>
+                                                        <% } %>
+
+
+                                        </p>
                                     </div>
                         </div>
                 </div>

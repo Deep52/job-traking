@@ -1,0 +1,28 @@
+<%- include('header') %>
+
+    <body>
+        <div class="studentDashborad bg-light">
+            <div class="container-fluid">
+                <div class="row">
+                    <%- include('professor_side_bar_dashboard') -%>
+                        <div class="col-md-10 table__dashboard p-0 ">
+                            <%- include('Notification-professor') -%>
+                                <%- include('professor-search') -%>
+                                    <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
+                                        <h4 class="pt-0"><b></b></h4>
+
+                                        <p class="col-md-12 mobile-view-custom d-flex justify-content-between bg-white p-3 shadow-sm align-items-center">
+                                            <% if (print==''){ %>
+                                                <% } %>
+                                                    <% if (print !='1-w' && print !='2-w' && print !='3-w' && print !=''){ %>
+                                                        <a class="btn btn-magenta rounded-0 me-1 d-none d-md-block" href="/print_report/<%= print %>">Report</a>
+                                                        <% } %>
+
+
+                                        </p>
+                                    </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <%- include('footer') %>
