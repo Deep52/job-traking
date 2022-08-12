@@ -1,4 +1,5 @@
 <%- include('header') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
     <body>
         <div class="studentDashborad bg-light">
@@ -11,18 +12,93 @@
                                     <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
                                         <h4 class="pt-0"><b></b></h4>
 
-                                        <p class="col-md-12 mobile-view-custom d-flex justify-content-between bg-white p-3 shadow-sm align-items-center">
-                                            <% if (print==''){ %>
-                                                <% } %>
-                                                    <% if (print !='1-w' && print !='2-w' && print !='3-w' && print !=''){ %>
-                                                        <a class="btn btn-magenta rounded-0 me-1 d-none d-md-block" href="/print_report/<%= print %>">Report</a>
-                                                        <% } %>
+                                        <canvas id="myChart" style="width:100%;max-width:800px"></canvas>
+
+                                    </div>
+                                    <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
+                                        <h4 class="pt-0"><b></b></h4>
+                                        <p>
+                                            <input type="hidden" id="date" value="<%= date %>">
 
 
                                         </p>
+                                        <p>
+                                            <input type="hidden" id="yes_count" value="<%= count_number %>"> </p>
+
                                     </div>
                         </div>
                 </div>
             </div>
+
         </div>
+        <script>
+            $(document).ready(function() {
+                date = $('#date').val().split(',');
+                yes_count = $('#yes_count').val().split(',');
+                //alert(date);
+                //alert(date.length);
+
+                if (date.length == '3') {
+                    var xValues = [date[0], date[1], date[2]];
+
+                }
+                if (date.length == '6') {
+                    var xValues = [date[0], date[1], date[2], date[3], date[4], date[5]];
+
+                }
+                if (date.length == '9') {
+                    var xValues = [date[0], date[1], date[2], date[3], date[4], date[5], date[6], date[7], date[8]];
+
+                }
+                if (date.length == '12') {
+                    var xValues = [date[0], date[1], date[2], date[3], date[4], date[5], date[6], date[7], date[8], date[9], date[10], date[11]];
+
+                }
+                if (yes_count.length == '3') {
+                    var yValues = [yes_count[0], yes_count[1], yes_count[2]];
+
+                }
+                if (yes_count.length == '6') {
+                    var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5]];
+
+                }
+                if (yes_count.length == '9') {
+                    var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8]];
+
+                }
+                if (yes_count.length == '12') {
+                    var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8], yes_count[9], yes_count[10], yes_count[11]];
+
+                }
+
+                //var yValues = [55, 49, 44, 24, 15];
+                var barColors = ["green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green"];
+
+                new Chart("myChart", {
+                    type: "bar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: true,
+                            title: {
+                                text: 'Qualified'
+                            },
+
+
+                        },
+                        title: {
+                            display: true,
+                            text: `Last ${date.length} Months Students Who's Got Jobs  `
+                        }
+                    }
+                });
+            });
+        </script>
+
         <%- include('footer') %>

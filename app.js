@@ -201,13 +201,45 @@ app.get("/print_report/:id", function(req, res) {
     var month1 = new Date(now.getTime() - mo * 24 * 60 * 60 * 1000);
     var mm = month1.toISOString();
     var mmm = mm.split('T');
-    var mmmm = mmm[0].split('-')
-    console.log(mmm);
+    var add = [];
+    var add2 = [];
+    var add3 = [];
+    var count_number = [];
+    for (var i = 1; i <= m; i++) {
+        //var add2 = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+        // var dd = (new Date(now.getTime() - i * 30 * 24 * 60 * 60 * 1000)).toISOString().split('T');
+        var add2 = (new Date(now.getTime() - i * 30 * 24 * 60 * 60 * 1000)).toISOString().split('T');
+        //add.splice(index, i, item);
+        add.push(`${add2[0]}`);
+        //console.log(add[i]);
+        // SELECT   count(qualified), create_date FROM public.addjob where qualified='Yes' and create_date between '2022-07-01' and '2022-07-31' group by create_date 
+
+    }
+    //console.log(add.length);
+    for (var j = 0; j <= add.length - 1; j++) {
+
+        client.query(`SELECT  count(qualified) FROM public.addjob where qualified='No' and create_date between '${add[j]}' and '${add[j+1]}'`).then(fetch => {
+
+            // console.log(fetch.rows[0].count);
+            count_number.push(fetch.rows[0].count);
+        });
+
+
+        // console.log(add[j]);
+
+    }
+    //console.log(add);
+
+    //var mmmm = mmm[0].split('-')
+
+    //for(var i=0;i<=11;i++) { 
+    //  console.info( "next month for %i: %i", i+1, (i+1)%12 + 1 ) 
+    // }
     client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
         client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
             //console.log(mo);
             link = __dirname + '/public/upload/';
-            res.render("graph", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
+            res.render("graph", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report, date: add, count_number: count_number });
         });
     });
 
