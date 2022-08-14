@@ -213,12 +213,34 @@ app.get("/print_report/:id", function(req, res) {
         add.push(`${add2[0]}`);
         //console.log(add[i]);
         // SELECT   count(qualified), create_date FROM public.addjob where qualified='Yes' and create_date between '2022-07-01' and '2022-07-31' group by create_date 
-
+        //  SELECT count(qualified) , EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) FROM public.addjob  where qualified='Yes' and create_date between '2022-07-15' and '2022-08-15' group by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS'));
     }
-    //console.log(add.length);
-    for (var j = 0; j <= add.length - 1; j++) {
+    const d = new Date();
+    let month = d.getMonth();
+    count_month = (month + 1) - m;
+    //console.log(count_month);
+    client.query(` SELECT count(qualified)  ,EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) as month FROM public.addjob where qualified='Yes' and EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) > '${count_month}'  group by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) order by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) desc`).then(fetch => {
+        //count_number=
+        // }
+        console.log(fetch.rows);
+        client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
+            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                //console.log(mo);
+                link = __dirname + '/public/upload/';
+                res.render("graph", { type: req.cookies.type, id: user_id, Notification: count1.rows, count_not: count1.rowCount, date: add, count_number: count_number, records: fetch.rows });
+            });
+        });
 
-        client.query(`SELECT  count(qualified) FROM public.addjob where qualified='No' and create_date between '${add[j]}' and '${add[j+1]}'`).then(fetch => {
+
+
+
+    });
+
+    for (var j = 1; j <= add.length; j++) {
+        // console.log(add[j + 1] + '?');
+        //  console.log(add[j]);
+
+        client.query(`SELECT  count(qualified) FROM public.addjob where qualified='Yes' and create_date between '${add[j]}' and '${add[j+1]}'`).then(fetch => {
 
             // console.log(fetch.rows[0].count);
             count_number.push(fetch.rows[0].count);
@@ -234,14 +256,7 @@ app.get("/print_report/:id", function(req, res) {
 
     //for(var i=0;i<=11;i++) { 
     //  console.info( "next month for %i: %i", i+1, (i+1)%12 + 1 ) 
-    // }
-    client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
-        client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
-            //console.log(mo);
-            link = __dirname + '/public/upload/';
-            res.render("graph", { type: req.cookies.type, id: user_id, records: months.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report, date: add, count_number: count_number });
-        });
-    });
+
 
 
 });

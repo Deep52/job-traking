@@ -18,12 +18,16 @@
                                     <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
                                         <h4 class="pt-0"><b></b></h4>
                                         <p>
-                                            <input type="hidden" id="date" value="<%= date %>">
+
+                                            <input type="hidden" id="date" value="<% records.forEach(record=> { %><%= record.count     %> -<%= record.month     %>, <% }); %>">
+
+
 
 
                                         </p>
                                         <p>
-                                            <input type="hidden" id="yes_count" value="<%= count_number %>"> </p>
+                                            <input type="hidden" id="yes_count" value="<%=     %>"> </p>
+
 
                                     </div>
                         </div>
@@ -34,39 +38,30 @@
         <script>
             $(document).ready(function() {
                 date = $('#date').val().split(',');
+
+                // dd3 = date[3].split('-');
+                //dd4 = date[4].split('-');
+                //dd5 = date[5].split('-');
+                // dd6 = date[6].split('-');
+                //alert(date.length);
+
+                // alert(dd1[1]);
                 yes_count = $('#yes_count').val().split(',');
                 //alert(date);
                 //alert(date.length);
 
-                if (date.length == '3') {
-                    var xValues = [date[0], date[1], date[2]];
+                if (date.length == '4') {
+                    dd = date[0].split('-');
+                    dd1 = date[1].split('-');
+                    dd2 = date[2].split('-');
+                    var xValues = ['2022-' + dd[1] + '-1', '2022-' + dd1[1] + '-1', '2022-' + dd2[1] + '-1'];
+                    var yValues = [dd[0], dd1[0], dd2[0]];
+                    // var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+                    // var yValues = [55, 49, 44, 24, 15];
 
                 }
-                if (date.length == '6') {
-                    var xValues = [date[0], date[1], date[2], date[3], date[4], date[5]];
 
-                }
-                if (date.length == '9') {
-                    var xValues = [date[0], date[1], date[2], date[3], date[4], date[5], date[6], date[7], date[8]];
-
-                }
-                if (date.length == '12') {
-                    var xValues = [date[0], date[1], date[2], date[3], date[4], date[5], date[6], date[7], date[8], date[9], date[10], date[11]];
-
-                }
                 if (yes_count.length == '3') {
-                    var yValues = [yes_count[0], yes_count[1], yes_count[2]];
-
-                }
-                if (yes_count.length == '6') {
-                    var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5]];
-
-                }
-                if (yes_count.length == '9') {
-                    var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8]];
-
-                }
-                if (yes_count.length == '12') {
                     var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8], yes_count[9], yes_count[10], yes_count[11]];
 
                 }
@@ -76,9 +71,11 @@
 
                 new Chart("myChart", {
                     type: "bar",
+                    responsive: true,
                     data: {
                         labels: xValues,
                         datasets: [{
+                            label: 'Qualified',
                             backgroundColor: barColors,
                             data: yValues
                         }]
@@ -96,7 +93,9 @@
                             display: true,
                             text: `Last ${date.length} Months Students Who's Got Jobs  `
                         }
+
                     }
+
                 });
             });
         </script>
