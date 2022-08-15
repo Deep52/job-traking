@@ -218,23 +218,26 @@ app.get("/print_report/:id", function(req, res) {
     const d = new Date();
     let month = d.getMonth();
     count_month = (month + 1) - m;
-    //console.log(count_month);
+    //console.log(month);
+
     client.query(` SELECT count(qualified)  ,EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) as month FROM public.addjob where qualified='Yes' and EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) > '${count_month}'  group by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) order by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) desc`).then(fetch => {
-        //count_number=
-        // }
-        console.log(fetch.rows);
-        client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
-            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
-                //console.log(mo);
-                link = __dirname + '/public/upload/';
-                res.render("graph", { type: req.cookies.type, id: user_id, Notification: count1.rows, count_not: count1.rowCount, date: add, count_number: count_number, records: fetch.rows });
+        client.query(` SELECT count(qualified)  ,EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) as month FROM public.addjob where qualified='No' and EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) > '${count_month}'  group by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) order by EXTRACT(MONTH FROM TO_TIMESTAMP(create_date,'YYYY-MM-DD HH24:MT:SS')) desc`).then(fetch_No => {
+            //count_number=
+            // }
+            //console.log(fetch.rows);
+            client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.create_date >= $1", [mmm[0]]).then(months => {
+                client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+                    //console.log(mo);
+                    link = __dirname + '/public/upload/';
+                    res.render("graph", { type: req.cookies.type, id: user_id, Notification: count1.rows, count_not: count1.rowCount, date: add, count_number: count_number, records: fetch.rows, records1: fetch_No.rows, display: m });
+                });
             });
+
+
+
         });
-
-
-
-
     });
+
 
     for (var j = 1; j <= add.length; j++) {
         // console.log(add[j + 1] + '?');
@@ -264,10 +267,11 @@ app.get("/print_report/:id", function(req, res) {
 
 
 app.post("/advance-search", async(req, res, next) => {
+    //console.log('k,ghskfjsbaxg,fbdkxjbgdk');
     const { advance_search, Weekly, Monthly, Qualified } = req.body;
 
     var user_id = cryptr.decrypt(req.cookies.user_id);
-    if (Weekly == 'Weekly' && Monthly == 'Monthly' && Qualified == 'Qualified') {
+    if (advance_search) {
         client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' and   lower(login.fname) like $1 or public.login.typebyadmin='S' and   lower(login.course) like $1 or  public.login.typebyadmin='S' and   lower(login.lname) like $1 or public.login.typebyadmin='S' and   lower(login.email) like $1 or public.login.typebyadmin='S' and   lower(addjob.company_name) like $1 or public.login.typebyadmin='S' and   lower(addjob.job_tittle) like $1", [advance_search]).then(records => {
             // console.log(records);
             //for (let i = 0; i < records.rowCount; i++) {

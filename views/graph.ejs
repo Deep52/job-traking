@@ -13,6 +13,7 @@
                                         <h4 class="pt-0"><b></b></h4>
 
                                         <canvas id="myChart" style="width:100%;max-width:800px"></canvas>
+                                        <canvas id="myChart1" style="width:100%;max-width:800px"></canvas>
 
                                     </div>
                                     <div class="col-md-12 table__main px-0" style="overflow-x: auto;">
@@ -22,11 +23,12 @@
                                             <input type="hidden" id="date" value="<% records.forEach(record=> { %><%= record.count     %> -<%= record.month     %>, <% }); %>">
 
 
-
+                                            <input type="hidden" id="Not" value="<% records1.forEach(record1=> { %><%= record1.count     %> -<%= record1.month     %>, <% }); %>">
 
                                         </p>
                                         <p>
-                                            <input type="hidden" id="yes_count" value="<%=     %>"> </p>
+
+                                            <input type="hidden" id="yes_count" value="<%=  display   %>"> </p>
 
 
                                     </div>
@@ -38,31 +40,112 @@
         <script>
             $(document).ready(function() {
                 date = $('#date').val().split(',');
+                Not = $('#Not').val().split(',');
 
-                // dd3 = date[3].split('-');
-                //dd4 = date[4].split('-');
-                //dd5 = date[5].split('-');
-                // dd6 = date[6].split('-');
+
                 //alert(date.length);
 
                 // alert(dd1[1]);
-                yes_count = $('#yes_count').val().split(',');
+                yes_count = $('#yes_count').val();
                 //alert(date);
                 //alert(date.length);
 
-                if (date.length == '4') {
+                if (yes_count == '3') {
                     dd = date[0].split('-');
                     dd1 = date[1].split('-');
                     dd2 = date[2].split('-');
-                    var xValues = ['2022-' + dd[1] + '-1', '2022-' + dd1[1] + '-1', '2022-' + dd2[1] + '-1'];
-                    var yValues = [dd[0], dd1[0], dd2[0]];
+
+                    ndd = Not[0].split('-');
+                    ndd1 = Not[1].split('-');
+                    ndd2 = Not[2].split('-');
+
+
+                    var xValues1 = ['2022-0' + ndd[1] + '-01', '2022-0' + ndd1[1] + '-01', '2022-0' + ndd2[1] + '-01'];
+                    var yValues1 = [ndd[0], ndd1[0], ndd2[0]];
                     // var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
                     // var yValues = [55, 49, 44, 24, 15];
-
+                    var xValues = ['2022-0' + dd[1] + '-01', '2022-0' + dd1[1] + '-01', '2022-0' + dd2[1] + '-01'];
+                    var yValues = [dd[0], dd1[0], dd2[0]];
                 }
 
-                if (yes_count.length == '3') {
-                    var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8], yes_count[9], yes_count[10], yes_count[11]];
+                if (yes_count == '6') {
+                    dd = date[0].split('-');
+                    dd1 = date[1].split('-');
+                    dd2 = date[2].split('-');
+                    dd3 = date[3].split('-');
+                    dd4 = date[4].split('-');
+                    dd5 = date[5].split('-');
+                    dd6 = date[6].split('-');
+
+                    ndd = Not[0].split('-');
+                    ndd1 = Not[1].split('-');
+                    ndd2 = Not[2].split('-');
+                    ndd3 = Not[3].split('-');
+                    ndd4 = Not[4].split('-');
+                    ndd5 = Not[5].split('-');
+                    ndd6 = Not[6].split('-');
+
+                    var xValues = ['2022-0' + dd[1] + '-01', '2022-0' + dd1[1] + '-01', '2022-0' + dd2[1] + '-01', '2022-0' + dd3[1] + '-01', '2022-0' + dd4[1] + '-01', '2022-0' + dd5[1] + '-01'];
+                    var yValues = [dd[0], dd1[0], dd2[0], dd3[0], dd4[0], dd5[0]];
+                    //var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8], yes_count[9], yes_count[10], yes_count[11]];
+
+                    var xValues1 = ['2022-0' + ndd[1] + '-01', '2022-0' + ndd1[1] + '-01', '2022-0' + ndd2[1] + '-01', '2022-0' + ndd3[1] + '-01', '2022-0' + ndd4[1] + '-01', '2022-0' + ndd5[1] + '-01'];
+                    var yValues1 = [ndd[0], ndd1[0], ndd2[0], ndd3[0], ndd4[0], ndd5[0]];
+                }
+                if (yes_count == '9') {
+                    dd = date[0].split('-');
+                    dd1 = date[1].split('-');
+                    dd2 = date[2].split('-');
+                    dd3 = date[3].split('-');
+                    dd4 = date[4].split('-');
+                    dd5 = date[5].split('-');
+                    dd6 = date[6].split('-');
+
+
+                    ndd = Not[0].split('-');
+                    ndd1 = Not[1].split('-');
+                    ndd2 = Not[2].split('-');
+                    ndd3 = Not[3].split('-');
+                    ndd4 = Not[4].split('-');
+                    ndd5 = Not[5].split('-');
+                    ndd6 = Not[6].split('-');
+
+
+                    var xValues = ['2022-0' + dd[1] + '-01', '2022-0' + dd1[1] + '-01', '2022-0' + dd2[1] + '-01', '2022-0' + dd3[1] + '-01', '2022-0' + dd4[1] + '-01', '2022-0' + dd5[1] + '-01', '2022-0' + dd6[1] + '-01', '2021-01-01', '2021-02-01'];
+                    var yValues = [dd[0], dd1[0], dd2[0], dd3[0], dd4[0], dd5[0], dd6[0], '5', '9'];
+                    //var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8], yes_count[9], yes_count[10], yes_count[11]];
+
+                    var xValues1 = ['2022-0' + ndd[1] + '-01', '2022-0' + ndd1[1] + '-01', '2022-0' + ndd2[1] + '-01', '2022-0' + ndd3[1] + '-01', '2022-0' + ndd4[1] + '-01', '2022-0' + ndd5[1] + '-01', '2022-0' + ndd6[1] + '-01', '2021-01-01', '2021-02-01'];
+                    var yValues1 = [ndd[0], ndd1[0], ndd2[0], ndd3[0], ndd4[0], ndd5[0], ndd6[0], '9', '7'];
+
+
+                }
+                if (yes_count == '12') {
+                    dd = date[0].split('-');
+                    dd1 = date[1].split('-');
+                    dd2 = date[2].split('-');
+                    dd3 = date[3].split('-');
+                    dd4 = date[4].split('-');
+                    dd5 = date[5].split('-');
+                    dd6 = date[6].split('-');
+
+
+                    ndd = Not[0].split('-');
+                    ndd1 = Not[1].split('-');
+                    ndd2 = Not[2].split('-');
+                    ndd3 = Not[3].split('-');
+                    ndd4 = Not[4].split('-');
+                    ndd5 = Not[5].split('-');
+                    ndd6 = Not[6].split('-');
+
+
+                    var xValues = ['2022-0' + dd[1] + '-01', '2022-0' + dd1[1] + '-01', '2022-0' + dd2[1] + '-01', '2022-0' + dd3[1] + '-01', '2022-0' + dd4[1] + '-01', '2022-0' + dd5[1] + '-01', '2022-0' + dd6[1] + '-01', '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01'];
+                    var yValues = [dd[0], dd1[0], dd2[0], dd3[0], dd4[0], dd5[0], dd6[0], '5', '9', '7', '13', '18'];
+                    //var yValues = [yes_count[0], yes_count[1], yes_count[2], yes_count[3], yes_count[4], yes_count[5], yes_count[6], yes_count[7], yes_count[8], yes_count[9], yes_count[10], yes_count[11]];
+
+
+                    var xValues1 = ['2022-0' + ndd[1] + '-01', '2022-0' + ndd1[1] + '-01', '2022-0' + ndd2[1] + '-01', '2022-0' + ndd3[1] + '-01', '2022-0' + ndd4[1] + '-01', '2022-0' + ndd5[1] + '-01', '2022-0' + ndd6[1] + '-01', '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01'];
+                    var yValues1 = [ndd[0], ndd1[0], ndd2[0], ndd3[0], ndd4[0], ndd5[0], ndd6[0], '9', '7', '5', '11', '13'];
 
                 }
 
@@ -91,11 +174,40 @@
                         },
                         title: {
                             display: true,
-                            text: `Last ${date.length} Months Students Who's Got Jobs  `
+                            text: `Last ${date.length-1} Months Students Who's Got Jobs  `
                         }
 
                     }
 
+                });
+
+                var barColors1 = ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red"];
+
+                new Chart("myChart1", {
+                    type: "bar",
+                    data: {
+                        labels: xValues1,
+                        datasets: [{
+                            label: 'Not Qualified',
+                            backgroundColor: barColors1,
+                            data: yValues1
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: true,
+                            title: {
+                                text: 'Qualified'
+                            },
+
+
+                        },
+                        title: {
+                            display: true,
+                            text: `Last ${date.length-1} Months Students Who's Did Not Get Jobs  `
+                        }
+
+                    }
                 });
             });
         </script>
