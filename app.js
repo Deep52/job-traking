@@ -270,8 +270,10 @@ app.post("/advance-search", async(req, res, next) => {
     //console.log('k,ghskfjsbaxg,fbdkxjbgdk');
     const { advance_search, Weekly, Monthly, Qualified } = req.body;
 
+
     var user_id = cryptr.decrypt(req.cookies.user_id);
-    if (advance_search) {
+    if (advance_search != '') {
+        // console.log('advance_search');
         client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' and   lower(login.fname) like $1 or public.login.typebyadmin='S' and   lower(login.course) like $1 or  public.login.typebyadmin='S' and   lower(login.lname) like $1 or public.login.typebyadmin='S' and   lower(login.email) like $1 or public.login.typebyadmin='S' and   lower(addjob.company_name) like $1 or public.login.typebyadmin='S' and   lower(addjob.job_tittle) like $1", [advance_search]).then(records => {
             // console.log(records);
             //for (let i = 0; i < records.rowCount; i++) {
@@ -286,20 +288,9 @@ app.post("/advance-search", async(req, res, next) => {
             });
         });
     }
-    if (Qualified != 'Qualified') {
-        // console.log(Qualified);
-        let report = Qualified;
-        client.query("SELECT * FROM public.login INNER JOIN  public.addjob ON login.id = addjob.user_id where public.addjob.qualified = $1", [Qualified]).then(Qualif => {
-            client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
-                //console.log(mo);
-                link = __dirname + '/public/upload/';
-                res.render("Professor-dashboard", { type: req.cookies.type, id: user_id, records: Qualif.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
-            });
-        });
 
-    }
     if (Weekly != 'Weekly') {
-        // console.log(Weekly);
+        // console.log('Weekly');
         let report = Weekly + '-w';
 
         var now = new Date();
@@ -321,6 +312,7 @@ app.post("/advance-search", async(req, res, next) => {
     }
 
     if (Monthly != 'Monthly') {
+        // console.log('Monthly');
         let report = Monthly;
 
         var now = new Date();
