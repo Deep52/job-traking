@@ -5,6 +5,7 @@ var config = {
         password: "12345",
         host: "localhost",
         port: 5432,
+        max_connections: 100,
     },
     production: {
         user: "qbz21rgu",

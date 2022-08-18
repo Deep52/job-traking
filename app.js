@@ -89,26 +89,33 @@ app.get("/", function(req, res) {
 app.get("/login_student", function(req, res) {
     //  res.render('login', { type: Student });
     //console.log('jfjkgv');
+
     res.render('login', { type: 'Student' });
 });
 app.get("/login_Professor", function(req, res) {
+    res.setHeader("Content-Security-Policy", "script-src 'http://localhost:5000/'");
     res.render('login', { type: 'Professor' });
 });
 app.get("/login_Admin", function(req, res) {
+
     res.render('login', { type: 'Admin' });
 });
 app.get("/register_Student", function(req, res) {
+
     res.render("register", { type: 'Student' });
 });
 app.get("/register_professor", function(req, res) {
+
     res.render("register", { type: 'Professor' });
 });
 app.get("/register_admin", function(req, res) {
+
     res.render("register", { type: 'Admin' });
 });
 app.get("/add-department", function(req, res) {
     client.query("SELECT * FROM public.department   ORDER BY id DESC").then(records_DC => {
         const user_id = cryptr.decrypt(req.cookies.user_id);
+
         res.render("add-department", { type: req.cookies.type, id: user_id, records_dc: records_DC.rows, });
 
     });
@@ -118,6 +125,7 @@ app.get("/add-department", function(req, res) {
 app.get("/add-course", function(req, res) {
     client.query("SELECT * FROM public.course   ORDER BY id DESC").then(records_DC => {
         const user_id = cryptr.decrypt(req.cookies.user_id);
+
         res.render("add-course", { type: req.cookies.type, id: user_id, records_dc: records_DC.rows, });
 
     });
@@ -131,6 +139,7 @@ app.get("/Student-dashboard", function(req, res) {
         client.query(`SELECT  *	FROM public.addjob where user_id='${user_id}' ORDER BY id DESC`).then(records => {
             // console.log(records);
             client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
+
                 res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
             });
         });
@@ -148,6 +157,7 @@ app.get("/Professor-dashboard", function(req, res) {
         client.query(`SELECT * FROM public.login INNER JOIN public.addjob ON login.id = addjob.user_id where public.login.typebyadmin='S' ORDER BY public.addjob.create_date DESC`).then(records => {
             // console.log(records);
             client.query(`SELECT * FROM public.reply_response where  count1='1'`).then(count1 => {
+
                 link = __dirname + '/public/upload/';
                 res.render("Professor-dashboard", { type: req.body.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount, print: report });
             });
@@ -166,6 +176,7 @@ app.get("/Admin-dashboard", function(req, res) {
         link = __dirname + '/public/upload/';
         client.query("SELECT * FROM public.login  where id !='23' ORDER BY start_date DESC").then(records => {
             const user_id = cryptr.decrypt(req.cookies.user_id);
+
             res.render("Admin-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link });
         });
     } else {
@@ -523,7 +534,7 @@ app.post("/login", async(req, res, next) => {
 
         }).catch(err => {
             // console.log('email or username is not correct')
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
             res.render("login", { type: req.body.type, error: 'Email ID or Password is wrong', color: 'red' });
 
         });
@@ -531,7 +542,7 @@ app.post("/login", async(req, res, next) => {
 
     }).catch(err => {
         // console.log('email or username is not correct')
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         res.render("login", { type: req.body.type, error: 'Email ID or Password is wrong', color: 'red' });
 
     });
@@ -615,13 +626,13 @@ app.post("/add-job", async(req, res, next) => {
 
     await client.query("INSERT INTO public.addjob(company_name, job_tittle, qualified,failed_in, resume_name,feedback,user_id, response, create_date) VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9) RETURNING *", [company_name, title, qualified, failed_in, req.files.resume_upload.name, feedback, user_id1, 'N', start_date]).then(results_job => {
 
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
 
         res.render("add-job", { type: type, error: 'Your Job Successfully added', color: 'green' });
 
     }).catch(err => {
         // console.log('email or username is not correct')
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         res.render("add-job", { type: type, error: 'Your Job Does Not Added. Please Try Again', color: 'red' });
 
     });
@@ -639,7 +650,7 @@ app.get('/job-delete/:id', function(req, res, next) {
         const client = new Pool(config);
         sess = req.session;
         client.query("DELETE FROM public.addjob WHERE id=$1", [job_id]).then(result => {
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
 
             const user_id = cryptr.decrypt(req.cookies.user_id);
 
@@ -660,7 +671,7 @@ app.get('/delete-dept/:id', function(req, res, next) {
         const client = new Pool(config);
         sess = req.session;
         client.query("DELETE FROM public.department WHERE id=$1", [dept_id]).then(result => {
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
 
             const user_id = cryptr.decrypt(req.cookies.user_id);
 
@@ -683,7 +694,7 @@ app.get('/delete-course/:id', function(req, res, next) {
         const client = new Pool(config);
         sess = req.session;
         client.query("DELETE FROM public.course WHERE id=$1", [course_id]).then(result => {
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
 
             const user_id = cryptr.decrypt(req.cookies.user_id);
 
@@ -709,7 +720,7 @@ app.get('/job-edit/:id', function(req, res, next) {
         sess = req.session;
 
         client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
             //console.log(records);
             const user_id = cryptr.decrypt(req.cookies.user_id);
 
@@ -738,14 +749,14 @@ app.post("/job-edit/update-job", async(req, res, next) => {
     sampleFile.mv(uploadPath);
 
     client.query(`UPDATE public.addjob	SET  company_name='${company_name}', job_tittle='${title}', qualified='${qualified}', failed_in='${failed_in}', resume_name='${req.files.resume_upload.name}', feedback='${feedback}', user_id='${user_id}'	WHERE id='${id}'`).then(records => {
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         //console.log(records);
         const user_id = cryptr.decrypt(req.cookies.user_id);
         res.render("edit-job", { type: req.cookies.type, error: 'Update Job Successfully added', color: 'green' });
 
     }).catch(err => {
         // console.log('email or username is not correct')
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         res.render("edit-job", { type: req.cookies.type, error: 'Update Does Not Successful. Please Try Again', color: 'red' });
 
     });
@@ -768,7 +779,7 @@ app.get('/job-view/:id', function(req, res, next) {
         sess = req.session;
 
         client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
             //console.log(records);
             const user_id = cryptr.decrypt(req.cookies.user_id);
             client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
@@ -795,7 +806,7 @@ app.get("/chart_status_update/:id", function(req, res) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
         client.query("UPDATE public.reply_response set count1='0'	WHERE job_id=$1", [job_id]).then(result => {
             client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
-                res.setHeader("Content-Security-Policy", "script-src 'none'");
+
                 //console.log(records);
                 const user_id = cryptr.decrypt(req.cookies.user_id);
                 client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
@@ -826,7 +837,7 @@ app.get("/chart_status_update_student/:id", function(req, res) {
         const user_id = cryptr.decrypt(req.cookies.user_id);
         client.query("UPDATE public.reply_response set count2='0'	WHERE job_id=$1", [job_id]).then(result => {
             client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
-                res.setHeader("Content-Security-Policy", "script-src 'none'");
+
                 //console.log(records);
                 const user_id = cryptr.decrypt(req.cookies.user_id);
                 client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
@@ -867,7 +878,7 @@ app.get('/job-view-prof/:id', function(req, res, next) {
         sess = req.session;
 
         client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
             //console.log(records);
             const user_id = cryptr.decrypt(req.cookies.user_id);
             client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
@@ -897,7 +908,7 @@ app.post("/Student-search", async(req, res, next) => {
     //req.body.search
 
     client.query("SELECT * FROM public.addjob where lower(job_tittle) like $1 or lower(company_name) like $1 ", [req.body.search]).then(records => {
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         //console.log(records);
         const user_id = cryptr.decrypt(req.cookies.user_id);
         client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
@@ -913,7 +924,7 @@ app.post("/admin-search", async(req, res, next) => {
     search = req.body.search;
 
     client.query("SELECT * FROM public.login where  id !='23' and lower(email) like $1 OR id !='23' and lower(fname) like $1 OR id !='23' and lower(lname) like $1 ", [req.body.search]).then(records => {
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         //console.log(records);
         const user_id = cryptr.decrypt(req.cookies.user_id);
 
@@ -952,7 +963,7 @@ app.post("/add-department", async(req, res, next) => {
         // console.log('email or username is not correct')
         client.query("SELECT * FROM public.department   ORDER BY id DESC").then(records_DC => {
             const user_id = cryptr.decrypt(req.cookies.user_id);
-            res.setHeader("Content-Security-Policy", "script-src 'none'");
+
             res.render("add-department", { type: req.cookies.type, error: 'Successfully Add Department', error: 'Department Name Do not Added. Please Try Again ', id: user_id, records_dc: records_DC.rows, color: 'red', });
 
         });
@@ -982,7 +993,7 @@ app.post("/add-course", async(req, res, next) => {
 
     }).catch(err => {
         // console.log('email or username is not correct')
-        res.setHeader("Content-Security-Policy", "script-src 'none'");
+
         client.query("SELECT * FROM public.course   ORDER BY id DESC").then(records_DC => {
             const user_id = cryptr.decrypt(req.cookies.user_id);
             res.render("add-course", { type: req.cookies.type, error: 'Course Does not Added. Please Try Again ', id: user_id, records_dc: records_DC.rows, color: 'red' });

@@ -84,7 +84,7 @@ $(document).ready(function() {
         dataType: "json",
     }).done(function(data) {
         var x_c = document.getElementById("course");
-        x_c.innerHTML = '';
+        //x_c.innerHTML = '';
         // alert(data);
         $.each(data, function(i, c) {
             var opt_c = document.createElement('option');
