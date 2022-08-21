@@ -8,11 +8,13 @@
                 <div class="row">
                     <%- include('side_bar_dashboard') -%>
                         <div class="col-md-10 table__dashboard p-0 ">
-                            <%- include('search') -%>
+                            <%- include('professor-search') -%>
                                 <div class="col-md-12 table__main px-3">
+
                                     <center>
-                                        <h4 class="pt-3"><b>View job</b></h4>
+                                        <h4 class=" col-md-2 btn btn-magenta rounded-0 me-1 d-none d-md-block"><b>View job</b></h4>
                                     </center>
+
                                     <center style="color:<%- color -%>" id="error_display">
                                         <%- error-%>
                                     </center>
