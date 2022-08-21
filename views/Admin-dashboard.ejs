@@ -40,11 +40,11 @@
                                                         <input type="radio" id="<%= record.type %>-<%= record.id %>" name="<%= record.type %>-<%= record.id %>" value="<%= record.typebyadmin %>" class="adminacces <%= record.type %>-<%= record.id %>" <% if (record.typebyadmin=='N' ) {%>                                                        checked
                                                         <% } else {%>
                                                             <% }%>>
-                                                                <label for="access1"><% if (record.type=='Student' ||record.type=='Student'){ %>Block <% } else{%> Disallow  <% } %></label>
+                                                                <label for="access1" class="access1"><% if (record.type=='Student' ||record.type=='Student'){ %>Block <% } else{%> Disallow  <% } %></label>
                                                                 <input type="radio" id="<%= record.type %>-<%= record.id %>" name="<%= record.type %>-<%= record.id %>" value="<%= record.typebyadmin %>" class="adminacces <%= record.type %>-<%= record.id %>" <% if (record.typebyadmin=='N' ) {%>
                                                                 <% } else {%>checked
                                                                     <% }%>>
-                                                                        <label for="access1"><% if (record.type=='Student' ||record.type=='Student'){ %>Unblock<% } else{%> Allow <% } %></label>
+                                                                        <label for="access1" class="access1"><% if (record.type=='Student' ||record.type=='Student'){ %>Unblock<% } else{%> Allow <% } %></label>
 
                                                                         <!----  <label class="toggler-wrapper style-24">
                                                             <input type="checkbox" id="<%= record.type %>-<%= record.id %>" class="adminacces" value="<%= record.typebyadmin %>">
