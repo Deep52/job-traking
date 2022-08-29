@@ -136,9 +136,9 @@ app.get("/Student-dashboard", function(req, res) {
     if (req.cookies.session_id) {
         link = __dirname + '/public/upload/';
         const user_id = cryptr.decrypt(req.cookies.user_id);
-        client.query(`SELECT  *	FROM public.addjob where user_id='${user_id}' ORDER BY id DESC`).then(records => {
+        client.query(`SELECT  *	FROM public.addjob where user_id='${user_id}'`).then(records => {
             // console.log(records);
-            client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
+            client.query(`SELECT * FROM public.reply_response where  count2='1' and user_id='${user_id}'`).then(count1 => {
 
                 res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, link: link, Notification: count1.rows, count_not: count1.rowCount });
             });
@@ -473,7 +473,7 @@ app.post("/login", async(req, res, next) => {
                 let type = res.cookie('type', req.body.type, { maxAge: 3000000, secure: true, httpOnly: true });
                 client.query(`SELECT  *	FROM public.addjob where user_id='${results_login.rows[0].id}' ORDER BY id DESC`).then(records => {
                     // console.log(records);
-                    client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
+                    client.query(`SELECT * FROM public.reply_response where  count2='1' and user_id='${results_login.rows[0].id}'`).then(count1 => {
                         //console.log(records.rows.push(count1.rowCount));
 
                         link = __dirname + '/public/upload/';
@@ -879,9 +879,12 @@ app.get('/job-view-prof/:id', function(req, res, next) {
 
         client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records => {
 
-            //console.log(records);
+            // console.log(records);
             const user_id = cryptr.decrypt(req.cookies.user_id);
-            client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
+            //console.log(user_id);
+            xx = `SELECT * FROM public.reply_response WHERE job_id='${job_id}' and user_id='${user_id}' ORDER BY date DESC`;
+            //console.log(xx);
+            client.query("SELECT * FROM public.reply_response WHERE job_id=$1  ", [job_id]).then(response => {
                 //console.log(response.rows);
                 res.render("view-job-prof", { type: req.cookies.type, user_id: user_id, records: records.rows[0], color: 'green', responses: response.rows });
                 // res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0] });
@@ -906,11 +909,11 @@ app.get('/job-view-prof/:id', function(req, res, next) {
 
 app.post("/Student-search", async(req, res, next) => {
     //req.body.search
-
-    client.query("SELECT * FROM public.addjob where lower(job_tittle) like $1 or lower(company_name) like $1 ", [req.body.search]).then(records => {
+    const user_id = cryptr.decrypt(req.cookies.user_id);
+    client.query("SELECT * FROM public.addjob where lower(job_tittle) like $1 and user_id=$2 or lower(company_name) like $1 and user_id=$2 ", [req.body.search, user_id]).then(records => {
 
         //console.log(records);
-        const user_id = cryptr.decrypt(req.cookies.user_id);
+
         client.query(`SELECT * FROM public.reply_response where  count2='1'`).then(count1 => {
 
             res.render("Student-dashboard", { type: req.cookies.type, id: user_id, records: records.rows, Notification: count1.rows, count_not: count1.rowCount });
@@ -1104,7 +1107,7 @@ app.post("/replybyprofessor", async(req, res, next) => {
                 client.query(`UPDATE public.addjob	SET  response_feedback='${reply_by_professor}', response='Y', prof_name='${professor_name}'	WHERE id='${job_id}' and user_id='${professor_id}'`).then(records => {
 
                     client.query("SELECT * FROM public.addjob WHERE id=$1", [job_id]).then(records_s => {
-                        client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, professor_id]).then(response => {
+                        client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2 ORDER BY date DESC", [job_id, professor_id]).then(response => {
                             //console.log(response.rows);
                             res.render("view-job-prof", { type: req.cookies.type, error: 'Successfully Send Message  ', user_id: professor_id, records: records_s.rows[0], color: 'green', responses: response.rows });
                         });
