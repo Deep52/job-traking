@@ -51,6 +51,7 @@
                 //alert(date.length);
 
                 if (yes_count == '3') {
+                    show = date.length - 1 + ' Months';
                     dd = date[0].split('-');
                     dd1 = date[1].split('-');
                     dd2 = date[2].split('-');
@@ -69,6 +70,7 @@
                 }
 
                 if (yes_count == '6') {
+                    show = date.length - 1 + ' Months';
                     dd = date[0].split('-');
                     dd1 = date[1].split('-');
                     dd2 = date[2].split('-');
@@ -93,6 +95,7 @@
                     var yValues1 = [ndd[0], ndd1[0], ndd2[0], ndd3[0], ndd4[0], ndd5[0]];
                 }
                 if (yes_count == '9') {
+                    show = 9 + ' Months';
                     dd = date[0].split('-');
                     dd1 = date[1].split('-');
                     dd2 = date[2].split('-');
@@ -121,6 +124,7 @@
 
                 }
                 if (yes_count == '12') {
+                    show = '1 Year';
                     dd = date[0].split('-');
                     dd1 = date[1].split('-');
                     dd2 = date[2].split('-');
@@ -174,7 +178,7 @@
                         },
                         title: {
                             display: true,
-                            text: `Last ${date.length-1} Months Students Who's Got Jobs  `
+                            text: `Last ${show}  Students Who's Got Jobs  `
                         }
 
                     }
@@ -204,7 +208,7 @@
                         },
                         title: {
                             display: true,
-                            text: `Last ${date.length-1} Months Students Who's Did Not Get Jobs  `
+                            text: `Last ${show}  Students Who's Did Not Get Jobs  `
                         }
 
                     }

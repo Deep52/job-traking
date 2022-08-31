@@ -809,7 +809,7 @@ app.get("/chart_status_update/:id", function(req, res) {
 
                 //console.log(records);
                 const user_id = cryptr.decrypt(req.cookies.user_id);
-                client.query("SELECT * FROM public.reply_response WHERE job_id=$1 and user_id=$2", [job_id, user_id]).then(response => {
+                client.query("SELECT * FROM public.reply_response WHERE job_id=$1 ", [job_id]).then(response => {
                     //console.log(response.rows);
                     res.render("view-job-prof", { type: req.cookies.type, user_id: user_id, records: records.rows[0], color: 'green', responses: response.rows });
                     // res.render("view-job", { type: req.cookies.type, user_id: user_id, records: records.rows[0] });
